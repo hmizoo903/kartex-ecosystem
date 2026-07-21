@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="page-container">
+    <h1 class="page-title"><i class="fa-solid fa-user-shield"></i> Admin Control Panel</h1>
+
+    <div class="trade-flex" style="margin-bottom: 2.5rem;">
+        <!-- UPDATE PRICE FORM -->
+        <div class="glass-card" style="padding: 2rem;">
+            <h3 style="color: var(--accent-secondary); margin-bottom: 1.5rem;"><i class="fa-solid fa-chart-line"></i> Update Market Price</h3>
+            <form action="{{ url_for('update_price') }}" method="POST">
+                <div class="form-group">
+                    <label>Current KTX Price ($USD): <strong>${{ "%.2f"|format(current_price) }}</strong></label>
+                    <input type="number" step="0.01" name="price" class="form-control" placeholder="0.15" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Update Price</button>
+            </form>
+        </div>
+
+        <!-- RECENT PRICE LOGS -->
+        <div class="glass-card" style="padding: 2rem;">
+            <h3 style="margin-bottom: 1rem;"><i class="fa-solid fa-list"></i> Price Updates Log</h3>
+            <ul style="list-style: none; padding: 0;">
+                {% for p in price_history %}
+                <li style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <span>${{ "%.2f"|format(p.price) }}</span>
+                    <span style="color: var(--text-secondary);">{{ p.created_at.strftime('%H:%M:%S') }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+    <!-- USERS MANAGEMENT TABLE -->
+    <div class="glass-card" style="padding: 1.5rem; overflow-x: auto;">
+        <h3 style="margin-bottom: 1.5rem;"><i class="fa-solid fa-users"></i> User Accounts & Wallets</h3>
+        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+            <thead>
+                <tr style="border-bottom: 1px solid var(--border-color); color: var(--text-secondary);">
+                    <th style="padding: 1rem;">ID</th>
+                    <th style="padding: 1rem;">Username</th>
+                    <th style="padding: 1rem;">Role</th>
+                    <th style="padding: 1rem;">USD Balance</th>
+                    <th style="padding: 1rem;">KTX Balance</th>
+                    <th style="padding: 1rem;">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for u in users %}
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <td style="padding: 1rem;">#{{ u.id }}</td>
+                    <td style="padding: 1rem; font-weight: 600;">{{ u.username }}</td>
+                    <td style="padding: 1rem;"><span style="background: rgba(34, 211, 238, 0.1); padding: 0.2rem 0.6rem; border-radius: 4px; color: var(--accent-secondary);">{{ u.role }}</span></td>
+                    
+                    <form action="{{ url_for('adjust_balance') }}" method="POST">
+                        <input type="hidden" name="user_id" value="{{ u.id }}">
+                        <td style="padding: 0.5rem;">
+                            <input type="number" step="any" name="usd_balance" class="form-control" value="{{ u.wallet.usd_balance }}" style="width: 110px;">
+                        </td>
+                        <td style="padding: 0.5rem;">
+                            <input type="number" step="any" name="ktx_balance" class="form-control" value="{{ u.wallet.ktx_balance }}" style="width: 130px;">
+                        </td>
+                        <td style="padding: 0.5rem;">
+                            <button type="submit" class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Save</button>
+                        </td>
+                    </form>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

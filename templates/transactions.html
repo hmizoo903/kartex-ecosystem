@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-container">
+    <h1 class="page-title">Transaction History</h1>
+
+    <div class="glass-card" style="padding: 1.5rem; overflow-x: auto;">
+        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+            <thead>
+                <tr style="border-bottom: 1px solid var(--border-color); color: var(--text-secondary);">
+                    <th style="padding: 1rem;">ID</th>
+                    <th style="padding: 1rem;">Type</th>
+                    <th style="padding: 1rem;">KTX Amount</th>
+                    <th style="padding: 1rem;">Price</th>
+                    <th style="padding: 1rem;">Total Value</th>
+                    <th style="padding: 1rem;">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tx in transactions %}
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <td style="padding: 1rem;">#{{ tx.id }}</td>
+                    <td style="padding: 1rem; font-weight: 700; color: {% if tx.transaction_type == 'BUY' %}#4ade80{% else %}#f87171{% endif %};">
+                        {{ tx.transaction_type }}
+                    </td>
+                    <td style="padding: 1rem;">{{ "{:,.2f}".format(tx.ktx_amount) }} KTX</td>
+                    <td style="padding: 1rem;">${{ "%.2f"|format(tx.price) }}</td>
+                    <td style="padding: 1rem;">${{ "%.2f"|format(tx.total_value) }}</td>
+                    <td style="padding: 1rem; color: var(--text-secondary);">{{ tx.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="6" style="padding: 2rem; text-align: center; color: var(--text-secondary);">No transactions found.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

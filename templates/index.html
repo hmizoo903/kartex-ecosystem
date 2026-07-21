@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">
+{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-container">
+        <!-- النص والأزرار على اليسار -->
+        <div class="hero-content">
+            <div class="hero-subtitle-tag">
+                <i class="fa-solid fa-bolt"></i> NEXT-GEN DEMO ECOSYSTEM
+            </div>
+            
+            <h1 class="hero-title">KARTEX</h1>
+            <div class="hero-sub-title">THE FUTURE IS BUILT.</div>
+            
+            <p class="hero-description">
+                A personal digital ecosystem built around ambition, technology, and the future.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#about" class="btn btn-glow">
+                    <i class="fa-solid fa-circle-check"></i> Explore KTX
+                </a>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-outline">
+                    <i class="fa-solid fa-compass"></i> Enter Dashboard
+                </a>
+            </div>
+        </div>
+
+        <!-- اللوغو المتحرك على اليمين -->
+        <div class="hero-visual">
+            <div class="coin-wrapper">
+                <div class="coin-glow"></div>
+                <div class="token-3d">
+                    <div class="token-face front">
+                        <i class="fa-solid fa-cube token-icon"></i>
+                        <span>KTX</span>
+                    </div>
+                    <div class="token-ring"></div>
+                    <div class="token-ring outer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Banner -->
+    <div class="stats-banner">
+        <div class="stat-item">
+            <span class="label">Total Supply</span>
+            <span class="value">{{ stats.total_supply }}</span>
+        </div>
+        <div class="stat-item">
+            <span class="label">Current Price</span>
+            <span class="value" style="color: #FFFFFF;">{{ stats.current_price }}</span>
+        </div>
+    </div>
+</section>
+
+<!-- قسم About -->
+<section class="about-preview" id="about">
+    <h2>Empowering The Next Era of Digital Liquidity</h2>
+    <p>
+        KARTEX (KTX) is an advanced digital asset ecosystem built to eliminate transaction friction and cross-border settlement delays. By merging high-throughput architecture with dynamic liquidity pools, KARTEX enables seamless, instantaneous, and low-cost digital value transfers for global users and modern tech enterprises.
+    </p>
+</section>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-container">
+    <h1 class="page-title">Tokenomics</h1>
+    
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;">
+        <div class="glass-card" style="padding: 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+            <canvas id="tokenomicsChart" style="max-width: 320px; max-height: 320px;"></canvas>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div class="glass-card" style="padding: 1.25rem;">
+                <div style="display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 0.5rem;">
+                    <span>Creator</span><span>40% (400,000 KTX)</span>
+                </div>
+                <div style="background: #262626; height: 8px; border-radius: 4px; overflow: hidden;">
+                    <div style="background: #7C3AED; width: 40%; height: 100%;"></div>
+                </div>
+            </div>
+
+            <div class="glass-card" style="padding: 1.25rem;">
+                <div style="display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 0.5rem;">
+                    <span>Community</span><span>30% (300,000 KTX)</span>
+                </div>
+                <div style="background: #262626; height: 8px; border-radius: 4px; overflow: hidden;">
+                    <div style="background: #22D3EE; width: 30%; height: 100%;"></div>
+                </div>
+            </div>
+
+            <div class="glass-card" style="padding: 1.25rem;">
+                <div style="display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 0.5rem;">
+                    <span>Development</span><span>20% (200,000 KTX)</span>
+                </div>
+                <div style="background: #262626; height: 8px; border-radius: 4px; overflow: hidden;">
+                    <div style="background: #6366F1; width: 20%; height: 100%;"></div>
+                </div>
+            </div>
+
+            <div class="glass-card" style="padding: 1.25rem;">
+                <div style="display: flex; justify-content: space-between; font-weight: 700; margin-bottom: 0.5rem;">
+                    <span>Marketing</span><span>10% (100,000 KTX)</span>
+                </div>
+                <div style="background: #262626; height: 8px; border-radius: 4px; overflow: hidden;">
+                    <div style="background: #F59E0B; width: 10%; height: 100%;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const ctx = document.getElementById('tokenomicsChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Creator', 'Community', 'Development', 'Marketing'],
+            datasets: [{
+                data: [40, 30, 20, 10],
+                backgroundColor: ['#7C3AED', '#22D3EE', '#6366F1', '#F59E0B'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom', labels: { color: '#9CA3AF' } }
+            }
+        }
+    });
+</script>
+{% endblock %}

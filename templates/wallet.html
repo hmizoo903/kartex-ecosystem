@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="page-container">
+    <h1 class="page-title">Trade Wallet & Exchange</h1>
+
+    <div class="dashboard-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 2rem;">
+        <div class="glass-card dash-card">
+            <span class="title">Demo USD Balance</span>
+            <span class="value" style="color: #4ade80;">${{ "%.2f"|format(user.wallet.usd_balance) }}</span>
+        </div>
+        <div class="glass-card dash-card">
+            <span class="title">KTX Balance</span>
+            <span class="value">{{ "{:,.2f}".format(user.wallet.ktx_balance) }} KTX</span>
+        </div>
+    </div>
+
+    <div class="trade-flex">
+        <!-- BUY FORM -->
+        <div class="glass-card" style="padding: 2rem;">
+            <h3 style="color: #4ade80; margin-bottom: 1.5rem;"><i class="fa-solid fa-arrow-down-long"></i> Buy KTX Token</h3>
+            <form action="{{ url_for('buy_ktx') }}" method="POST">
+                <div class="form-group">
+                    <label>Amount of KTX to Buy</label>
+                    <input type="number" step="any" name="amount" class="form-control" placeholder="1000" required>
+                </div>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">
+                    Current Rate: 1 KTX = <strong>${{ "%.2f"|format(current_price) }} USD</strong>
+                </p>
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; background: #22c55e;">Buy KTX</button>
+            </form>
+        </div>
+
+        <!-- SELL FORM -->
+        <div class="glass-card" style="padding: 2rem;">
+            <h3 style="color: #f87171; margin-bottom: 1.5rem;"><i class="fa-solid fa-arrow-up-long"></i> Sell KTX Token</h3>
+            <form action="{{ url_for('sell_ktx') }}" method="POST">
+                <div class="form-group">
+                    <label>Amount of KTX to Sell</label>
+                    <input type="number" step="any" name="amount" class="form-control" placeholder="500" required>
+                </div>
+                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">
+                    Current Rate: 1 KTX = <strong>${{ "%.2f"|format(current_price) }} USD</strong>
+                </p>
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; background: #ef4444;">Sell KTX</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

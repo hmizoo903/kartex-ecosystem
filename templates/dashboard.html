@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="page-container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h1 class="page-title" style="margin-bottom: 0;">Welcome, {{ user.username }}</h1>
+        <a href="{{ url_for('wallet') }}" class="btn btn-primary"><i class="fa-solid fa-wallet"></i> Open Trade Wallet</a>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="glass-card dash-card">
+            <span class="title">Portfolio Value</span>
+            <span class="value" style="color: var(--accent-secondary);">${{ "%.2f"|format(portfolio_value) }}</span>
+        </div>
+        <div class="glass-card dash-card">
+            <span class="title">KTX Balance</span>
+            <span class="value">{{ "{:,.2f}".format(user.wallet.ktx_balance) }} KTX</span>
+        </div>
+        <div class="glass-card dash-card">
+            <span class="title">Demo USD Balance</span>
+            <span class="value" style="color: #4ade80;">${{ "%.2f"|format(user.wallet.usd_balance) }}</span>
+        </div>
+        <div class="glass-card dash-card">
+            <span class="title">Current KTX Price</span>
+            <span class="value">${{ "%.2f"|format(current_price) }}</span>
+        </div>
+    </div>
+
+    <!-- Dynamic Chart Card -->
+    <div class="glass-card chart-card">
+        <h3 style="margin-bottom: 1rem;">KTX Price Movement</h3>
+        <canvas id="priceChart" style="max-height: 350px;"></canvas>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/chart.js') }}"></script>
+{% endblock %}

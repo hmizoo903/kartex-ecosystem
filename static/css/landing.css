@@ -1,0 +1,269 @@
+/* Hero Section */
+.hero {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5rem 2rem 3rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hero-subtitle-tag {
+    color: #22D3EE;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.hero-title {
+    font-size: 4.2rem;
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -1px;
+    margin-bottom: 0.5rem;
+    color: #FFFFFF;
+}
+
+.hero-sub-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #7C3AED;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+}
+
+.hero-description {
+    color: #9CA3AF;
+    font-size: 1.15rem;
+    max-width: 600px;
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1.25rem;
+    margin-bottom: 4rem;
+}
+
+.btn-glow {
+    background: #7C3AED;
+    color: #FFFFFF;
+    box-shadow: 0 0 25px rgba(124, 58, 237, 0.4);
+}
+
+.btn-glow:hover {
+    background: #6D28D9;
+    box-shadow: 0 0 35px rgba(124, 58, 237, 0.6);
+}
+
+/* Stats Container Style from Image */
+.stats-banner {
+    background: rgba(17, 17, 17, 0.7);
+    border: 1px solid #262626;
+    border-radius: 16px;
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    backdrop-filter: blur(10px);
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.stat-item .label {
+    color: #9CA3AF;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.stat-item .value {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #FFFFFF;
+}
+
+/* About Section Preview */
+.about-preview {
+    margin-top: 4rem;
+    max-width: 1200px;
+    padding: 0 2rem 4rem 2rem;
+}
+
+.about-preview h2 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 1rem;
+    color: #FFFFFF;
+}
+
+.about-preview p {
+    color: #9CA3AF;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    max-width: 800px;
+}
+
+@media (max-width: 768px) {
+    .hero-title { font-size: 2.8rem; }
+    .hero-sub-title { font-size: 1.4rem; }
+    .hero-buttons { flex-direction: column; }
+}
+/* ==================== HERO LAYOUT & 3D ANIMATED LOGO ==================== */
+.hero {
+    padding: 4rem 2rem 2rem 2rem;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.hero-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem;
+    min-height: 420px;
+}
+
+.hero-content {
+    flex: 1;
+    max-width: 600px;
+}
+
+.hero-visual {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+/* --- 3D Coin & Rings Architecture --- */
+.coin-wrapper {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1000px;
+}
+
+/* Neon Glow Effect behind coin */
+.coin-glow {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(124, 58, 237, 0.45) 0%, rgba(34, 211, 238, 0.2) 50%, rgba(0,0,0,0) 70%);
+    border-radius: 50%;
+    filter: blur(30px);
+    animation: pulseGlow 4s ease-in-out infinite alternate;
+}
+
+/* Core Token 3D Object */
+.token-3d {
+    width: 160px;
+    height: 160px;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: floatAndRotate 8s ease-in-out infinite;
+}
+
+.token-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.9), rgba(37, 99, 235, 0.8));
+    border: 3px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 30px rgba(124, 58, 237, 0.6), inset 0 0 15px rgba(255, 255, 255, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    backdrop-filter: blur(8px);
+}
+
+.token-face .token-icon {
+    font-size: 3.2rem;
+    margin-bottom: 0.3rem;
+    color: #22d3ee;
+    text-shadow: 0 0 12px rgba(34, 211, 238, 0.8);
+}
+
+.token-face span {
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+}
+
+/* Orbiting Rings */
+.token-ring {
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    border: 2px dashed rgba(34, 211, 238, 0.5);
+    border-radius: 50%;
+    top: -30px;
+    left: -30px;
+    animation: spinRing 12s linear infinite;
+}
+
+.token-ring.outer {
+    width: 270px;
+    height: 270px;
+    border: 1px solid rgba(124, 58, 237, 0.3);
+    border-top: 2px solid #7c3aed;
+    top: -55px;
+    left: -55px;
+    animation: spinRingReverse 16s linear infinite;
+}
+
+/* Keyframe Animations */
+@keyframes floatAndRotate {
+    0% {
+        transform: translateY(0px) rotateY(0deg) rotateX(10deg);
+    }
+    50% {
+        transform: translateY(-18px) rotateY(180deg) rotateX(-5deg);
+    }
+    100% {
+        transform: translateY(0px) rotateY(360deg) rotateX(10deg);
+    }
+}
+
+@keyframes spinRing {
+    0% { transform: rotateX(70deg) rotateZ(0deg); }
+    100% { transform: rotateX(70deg) rotateZ(360deg); }
+}
+
+@keyframes spinRingReverse {
+    0% { transform: rotateY(70deg) rotateZ(360deg); }
+    100% { transform: rotateY(70deg) rotateZ(0deg); }
+}
+
+@keyframes pulseGlow {
+    0% { transform: scale(0.9); opacity: 0.6; }
+    100% { transform: scale(1.2); opacity: 1; }
+}
+
+/* Mobile Responsive adjustment */
+@media (max-width: 868px) {
+    .hero-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    .hero-buttons {
+        justify-content: center;
+    }
+}

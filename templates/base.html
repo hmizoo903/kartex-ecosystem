@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KARTEX - Next-Gen Digital Asset Ecosystem</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Global CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar-header">
+        <nav class="nav-container">
+            <!-- الشعار على اليسار -->
+            <a href="{{ url_for('index') }}" class="nav-logo">
+                <i class="fa-solid fa-cube logo-icon"></i>
+                <span>KARTEX</span>
+            </a>
+
+            <!-- القائمة الرئيسية في الوسط -->
+            <ul class="nav-links">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+                <li><a href="{{ url_for('tokenomics') }}">Tokenomics</a></li>
+                <li><a href="{{ url_for('roadmap') }}">Roadmap</a></li>
+                <li><a href="{{ url_for('whitepaper') }}">Whitepaper</a></li>
+            </ul>
+
+            <!-- أزرار الحساب والمحفظة على اليمين -->
+            <div class="nav-actions">
+                {% if session.get('user_id') %}
+                    <a href="{{ url_for('dashboard') }}" class="btn-nav"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+                    <a href="{{ url_for('wallet') }}" class="btn-nav"><i class="fa-solid fa-wallet"></i> Wallet</a>
+                    <a href="{{ url_for('transactions') }}" class="btn-nav"><i class="fa-solid fa-clock-rotate-left"></i> History</a>
+                    <a href="{{ url_for('logout') }}" class="btn-logout" title="Logout"><i class="fa-solid fa-right-from-bracket"></i></a>
+                {% else %}
+                    <a href="{{ url_for('login') }}" class="btn-nav">Login</a>
+                    <a href="{{ url_for('register') }}" class="btn-primary-nav">Register</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <!-- FLASH MESSAGES -->
+    <div class="flash-messages-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message flash-{{ category }}">
+                        <span>{{ message }}</span>
+                        <button onclick="this.parentElement.style.display='none';">&times;</button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- MAIN CONTENT BLOCK -->
+    <main class="main-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <p>&copy; 2026 KARTEX Ecosystem. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="{{ url_for('whitepaper') }}">Documentation</a>
+                <a href="{{ url_for('about') }}">Architecture</a>
+            </div>
+        </div>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

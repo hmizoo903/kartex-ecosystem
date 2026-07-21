@@ -1,0 +1,39 @@
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.dash-card {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.dash-card .title {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.dash-card .value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #FFFFFF;
+}
+
+.chart-card {
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.trade-flex {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+@media (max-width: 768px) {
+    .trade-flex { grid-template-columns: 1fr; }
+}

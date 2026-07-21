@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-container">
+    <h1 class="page-title">Project Roadmap</h1>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+        
+        <div class="glass-card" style="padding: 1.5rem;">
+            <span style="color: var(--accent-secondary); font-weight: 800; font-size: 0.85rem;">PHASE 01</span>
+            <h3 style="margin: 0.5rem 0 1rem 0;">THE IDEA</h3>
+            <ul style="color: var(--text-secondary); font-size: 0.95rem; padding-left: 1.2rem; line-height: 1.8;">
+                <li>Create the concept</li>
+                <li>Choose the identity</li>
+                <li>Design the token</li>
+            </ul>
+        </div>
+
+        <div class="glass-card" style="padding: 1.5rem;">
+            <span style="color: var(--accent-primary); font-weight: 800; font-size: 0.85rem;">PHASE 02</span>
+            <h3 style="margin: 0.5rem 0 1rem 0;">THE PLATFORM</h3>
+            <ul style="color: var(--text-secondary); font-size: 0.95rem; padding-left: 1.2rem; line-height: 1.8;">
+                <li>Build the website</li>
+                <li>Create the dashboard</li>
+                <li>Add simulation wallet</li>
+            </ul>
+        </div>
+
+        <div class="glass-card" style="padding: 1.5rem;">
+            <span style="color: #6366F1; font-weight: 800; font-size: 0.85rem;">PHASE 03</span>
+            <h3 style="margin: 0.5rem 0 1rem 0;">THE ECOSYSTEM</h3>
+            <ul style="color: var(--text-secondary); font-size: 0.95rem; padding-left: 1.2rem; line-height: 1.8;">
+                <li>Add demo users</li>
+                <li>Add transactions</li>
+                <li>Add price simulation</li>
+            </ul>
+        </div>
+
+        <div class="glass-card" style="padding: 1.5rem;">
+            <span style="color: #F59E0B; font-weight: 800; font-size: 0.85rem;">PHASE 04</span>
+            <h3 style="margin: 0.5rem 0 1rem 0;">THE FUTURE</h3>
+            <ul style="color: var(--text-secondary); font-size: 0.95rem; padding-left: 1.2rem; line-height: 1.8;">
+                <li>Continue learning</li>
+                <li>Improve platform</li>
+                <li>Explore blockchain tech</li>
+            </ul>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
