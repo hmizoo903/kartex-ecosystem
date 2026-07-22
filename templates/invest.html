@@ -1,99 +1,191 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="page-container" style="padding-top: 2rem; padding-bottom: 4rem;">
-    <!-- Hero Banner -->
+<div style="max-width: 1300px; margin: 0 auto; padding: 2rem 1rem; color: #fff; font-family: 'Inter', system-ui, sans-serif;">
+
+    <!-- Top Header -->
     <div style="text-align: center; margin-bottom: 3rem;">
-        <span style="background: rgba(0, 242, 254, 0.1); color: var(--accent-secondary); border: 1px solid var(--accent-secondary); padding: 0.5rem 1.2rem; border-radius: 50px; font-size: 0.9rem; display: inline-block; margin-bottom: 1rem;">
-            <i class="fa-solid fa-coins" style="margin-right: 0.5rem;"></i> Institutional Staking & Yield
+        <span style="background: rgba(0, 242, 254, 0.1); color: #00f2fe; padding: 0.4rem 1.2rem; border-radius: 50px; font-size: 0.85rem; font-weight: 600; border: 1px solid rgba(0, 242, 254, 0.25); display: inline-block; margin-bottom: 0.8rem;">
+            <i class="fa-solid fa-chart-line" style="margin-right: 0.4rem;"></i> INSTITUTIONAL LIQUIDITY ENGINE
         </span>
-        <h1 class="page-title" style="font-size: 2.8rem; margin-bottom: 0.5rem;">
-            Multiply Your Capital with <span style="color: var(--accent-secondary);">KARTEX Vaults</span>
+        <h1 style="font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; letter-spacing: -0.5px;">
+            KARTEX <span style="color: #00f2fe;">Market Intelligence</span>
         </h1>
-        <p style="color: var(--text-secondary); font-size: 1.1rem; max-width: 650px; margin: 0 auto;">
-            Lock KTX liquidity pools and earn up to 24.5% APY with automated Smart Contract distribution.
+        <p style="color: #94a3b8; font-size: 1rem; max-width: 650px; margin: 0 auto;">
+            Real-time algorithmic price execution powered by institutional order flow and automated yield optimization protocols.
         </p>
     </div>
 
-    <!-- Live Deposit Ticker -->
-    <div class="glass-card" style="padding: 1rem 1.5rem; margin-bottom: 3rem; display: flex; align-items: center; gap: 1rem;">
-        <span style="background: #4ade80; color: #000; font-weight: 700; padding: 0.3rem 0.8rem; border-radius: 6px; font-size: 0.8rem;">LIVE ACTIVITY</span>
-        <marquee behavior="scroll" direction="left" style="color: var(--text-secondary); font-size: 0.9rem;">
-            🔥 User <strong style="color: #fff;">0x8f...39a</strong> just locked <strong style="color: var(--accent-secondary);">5,000 KTX ($500)</strong> in 30-Day Vault &nbsp;&nbsp;|&nbsp;&nbsp; 
-            💰 Investor <strong style="color: #fff;">Alex_M</strong> withdrew <strong style="color: #4ade80;">$1,250.00 USD</strong> profit &nbsp;&nbsp;|&nbsp;&nbsp;
-            🚀 User <strong style="color: #fff;">0x3c...11b</strong> joined Whale Pool (<strong style="color: #facc15;">$2,500 USD</strong>)
-        </marquee>
-    </div>
-
-    <!-- Investment Tiers -->
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 4rem;">
-        <!-- Pool 1 -->
-        <div class="glass-card" style="padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; text-align: center;">
+    <!-- Main Section: Left Chart | Right Execution Panel -->
+    <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; margin-bottom: 3rem; align-items: stretch;">
+        
+        <!-- LEFT SIDE: Live Chart Terminal (65% width) -->
+        <div style="flex: 2; min-width: 320px; background: rgba(18, 24, 38, 0.95); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.4); display: flex; flex-direction: column; justify-content: space-between;">
             <div>
-                <span style="color: var(--text-secondary); font-size: 0.85rem; font-weight: 700; letter-spacing: 1px;">STAKING POOL A</span>
-                <h3 style="font-size: 1.5rem; margin-top: 0.5rem; margin-bottom: 1.5rem;">Flex Liquidity</h3>
-                <div style="margin-bottom: 1.5rem;">
-                    <span style="font-size: 3rem; font-weight: 800; color: var(--accent-secondary);">8.5%</span>
-                    <span style="color: var(--text-secondary);">/ APY</span>
-                </div>
-                <ul style="list-style: none; padding: 0; text-align: right; color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 2rem; line-height: 2;">
-                    <li><i class="fa-solid fa-circle-check" style="color: var(--accent-secondary); margin-left: 0.5rem;"></i> Lock Period: 7 Days</li>
-                    <li><i class="fa-solid fa-circle-check" style="color: var(--accent-secondary); margin-left: 0.5rem;"></i> Daily Yield Payout</li>
-                    <li><i class="fa-solid fa-circle-check" style="color: var(--accent-secondary); margin-left: 0.5rem;"></i> Min: $50 USD</li>
-                </ul>
-            </div>
-            <a href="{{ url_for('wallet') }}" class="btn btn-outline" style="width: 100%; justify-content: center;">Stake Now</a>
-        </div>
-
-        <!-- Pool 2 -->
-        <div class="glass-card" style="padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; text-align: center; border: 1px solid var(--accent-secondary);">
-            <div>
-                <span style="background: var(--accent-secondary); color: #000; font-weight: 700; padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.75rem; display: inline-block; margin-bottom: 0.8rem;">MOST POPULAR</span>
-                <h3 style="font-size: 1.5rem; margin-bottom: 1.5rem;">Growth Vault</h3>
-                <div style="margin-bottom: 1.5rem;">
-                    <span style="font-size: 3rem; font-weight: 800; color: var(--accent-secondary);">16.8%</span>
-                    <span style="color: var(--text-secondary);">/ APY</span>
-                </div>
-                <ul style="list-style: none; padding: 0; text-align: right; color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 2rem; line-height: 2;">
-                    <li><i class="fa-solid fa-circle-check" style="color: var(--accent-secondary); margin-left: 0.5rem;"></i> Lock Period: 30 Days</li>
-                    <li><i class="fa-solid fa-circle-check" style="color: var(--accent-secondary); margin-left: 0.5rem;"></i> Auto-Compounding Yield</li>
-                    <li><i class="fa-solid fa-circle-check" style="color: var(--accent-secondary); margin-left: 0.5rem;"></i> Min: $250 USD</li>
-                </ul>
-            </div>
-            <a href="{{ url_for('wallet') }}" class="btn btn-glow" style="width: 100%; justify-content: center;">Stake Now</a>
-        </div>
-    </div>
-
-    <!-- Investor Success Stories -->
-    <div>
-        <h3 style="text-align: center; margin-bottom: 2rem;"><i class="fa-solid fa-star" style="color: #facc15; margin-right: 0.5rem;"></i> Investor Stories</h3>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
-            <div class="glass-card" style="padding: 1.5rem;">
-                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                    <div style="width: 45px; height: 45px; border-radius: 50%; background: rgba(0, 242, 254, 0.2); color: var(--accent-secondary); display: flex; align-items: center; justify-content: center; font-weight: 700;">MK</div>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2rem;">
                     <div>
-                        <h4 style="margin: 0; font-size: 1rem;">Marcus K.</h4>
-                        <small style="color: var(--text-secondary);">Crypto Portfolio Manager</small>
+                        <div style="display: flex; align-items: center; gap: 0.6rem;">
+                            <h3 style="margin: 0; font-size: 1.4rem; font-weight: 700; color: #fff;">KTX / USD</h3>
+                            <span style="background: rgba(34, 197, 94, 0.15); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.3); padding: 0.15rem 0.6rem; border-radius: 6px; font-size: 0.75rem; font-weight: 700;">● LIVE FEED</span>
+                        </div>
+                        <span style="color: #64748b; font-size: 0.8rem;">Smart Money Concept Orderbook Stream</span>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="color: #00f2fe; font-size: 1.8rem; font-weight: 800; font-family: monospace;" id="livePriceDisplay">${{ "%.2f"|format(current_price) }}</div>
+                        <span style="color: #22c55e; font-size: 0.8rem; font-weight: 600;"><i class="fa-solid fa-arrow-trend-up"></i> Institutional Momentum</span>
                     </div>
                 </div>
-                <p style="color: var(--text-secondary); font-size: 0.9rem; font-style: italic; margin: 0;">
-                    "Joining the KARTEX Growth Vault early allowed me to compound my initial $1,000 allocation into over $3,400 within 2 months. Smooth withdrawals directly to my balance!"
-                </p>
             </div>
 
-            <div class="glass-card" style="padding: 1.5rem;">
-                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-                    <div style="width: 45px; height: 45px; border-radius: 50%; background: rgba(250, 204, 21, 0.2); color: #facc15; display: flex; align-items: center; justify-content: center; font-weight: 700;">S.D</div>
-                    <div>
-                        <h4 style="margin: 0; font-size: 1rem;">Sarah D.</h4>
-                        <small style="color: var(--text-secondary);">Algorithmic Trader</small>
-                    </div>
-                </div>
-                <p style="color: var(--text-secondary); font-size: 0.9rem; font-style: italic; margin: 0;">
-                    "The liquidity stability and transparent price execution make KARTEX one of the most reliable Web3 ecosystems I have participated in this year."
+            <!-- Chart Canvas -->
+            <div style="height: 340px; position: relative; width: 100%;">
+                <canvas id="investPriceChart"></canvas>
+            </div>
+        </div>
+
+        <!-- RIGHT SIDE: Attractive Execution & Incentive Panel (35% width) -->
+        <div style="flex: 1; min-width: 290px; background: rgba(18, 24, 38, 0.95); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 1.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.4); display: flex; flex-direction: column; justify-content: space-between;">
+            <div>
+                <h4 style="margin: 0 0 1rem 0; font-size: 1.2rem; font-weight: 700; color: #fff; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fa-solid fa-bolt" style="color: #00f2fe;"></i> Quantitative Execution
+                </h4>
+                <p style="color: #94a3b8; font-size: 0.85rem; line-height: 1.5; margin-bottom: 1.5rem;">
+                    Capitalize on high-frequency liquidity pools. KARTEX routing technology captures optimal price inefficiencies to maximize yield distribution.
                 </p>
+
+                <!-- Key Metrics Cards -->
+                <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 1rem; margin-bottom: 1rem;">
+                    <span style="color: #64748b; font-size: 0.75rem; text-transform: uppercase; font-weight: 600; display: block;">Real-Time Price Index</span>
+                    <strong style="color: #fff; font-size: 1.5rem; font-weight: 800; font-family: monospace;" id="panelPriceValue">${{ "%.2f"|format(current_price) }}</strong>
+                </div>
+
+                <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 1rem; margin-bottom: 1rem;">
+                    <span style="color: #64748b; font-size: 0.75rem; text-transform: uppercase; font-weight: 600; display: block;">Liquidity Health</span>
+                    <span style="color: #00f2fe; font-size: 0.9rem; font-weight: 700;"><i class="fa-solid fa-shield-halved"></i> Optimal Depth & Protection</span>
+                </div>
+
+                <div style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 1rem; margin-bottom: 1.5rem;">
+                    <span style="color: #64748b; font-size: 0.75rem; text-transform: uppercase; font-weight: 600; display: block;">Audited Protocol</span>
+                    <span style="color: #22c55e; font-size: 0.9rem; font-weight: 700;"><i class="fa-solid fa-lock"></i> Smart Contract Verified</span>
+                </div>
+            </div>
+
+            <!-- CTA Button -->
+            <a href="{{ url_for('wallet') }}" style="background: #00f2fe; color: #0b0f19; font-weight: 800; text-align: center; padding: 0.9rem 1rem; border-radius: 10px; text-decoration: none; display: block; font-size: 0.95rem; box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3); transition: transform 0.2s;">
+                <i class="fa-solid fa-wallet" style="margin-right: 0.5rem;"></i> Access Vaults & Stake Now
+            </a>
+        </div>
+    </div>
+
+    <!-- BOTTOM SECTION: High Yield Vault Options -->
+    <div style="margin-top: 2rem;">
+        <h3 style="font-size: 1.5rem; font-weight: 700; color: #fff; margin-bottom: 1.5rem; text-align: center;">
+            Institutional <span style="color: #00f2fe;">Yield Vaults</span>
+        </h3>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 1.5rem;">
+            <!-- Vault 1 -->
+            <div style="flex: 1; min-width: 280px; background: rgba(18, 24, 38, 0.95); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 1.8rem; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+                <span style="color: #64748b; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px;">LIQUIDITY POOL A</span>
+                <h3 style="color: #fff; font-size: 1.4rem; font-weight: 700; margin: 0.6rem 0;">Flex Yield Vault</h3>
+                <div style="font-size: 2.2rem; font-weight: 800; color: #00f2fe; margin-bottom: 0.5rem;">8.5% <span style="font-size: 0.9rem; color: #64748b;">APY</span></div>
+                <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 1.5rem;">Flexible 7-Day Lock | Daily Automated Dividends</p>
+                <a href="{{ url_for('wallet') }}" style="border: 1px solid #00f2fe; color: #00f2fe; padding: 0.7rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 700; display: block; font-size: 0.85rem;">Deposit Assets</a>
+            </div>
+
+            <!-- Vault 2 (High Incentive) -->
+            <div style="flex: 1; min-width: 280px; background: rgba(18, 24, 38, 0.95); border: 1px solid #00f2fe; border-radius: 16px; padding: 1.8rem; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0, 242, 254, 0.15);">
+                <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #00f2fe; color: #0b0f19; font-weight: 800; font-size: 0.7rem; padding: 0.2rem 0.8rem; border-radius: 20px; text-transform: uppercase;">MAXIMIZE YIELD</div>
+                <span style="color: #64748b; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px;">INSTITUTIONAL VAULT</span>
+                <h3 style="color: #fff; font-size: 1.4rem; font-weight: 700; margin: 0.6rem 0;">Growth Accelerator</h3>
+                <div style="font-size: 2.2rem; font-weight: 800; color: #00f2fe; margin-bottom: 0.5rem;">24.5% <span style="font-size: 0.9rem; color: #64748b;">APY</span></div>
+                <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 1.5rem;">30-Day Lock | Auto-Compounding Liquidity Growth</p>
+                <a href="{{ url_for('wallet') }}" style="background: #00f2fe; color: #0b0f19; padding: 0.7rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 800; display: block; font-size: 0.85rem; box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3);">Deposit Assets</a>
             </div>
         </div>
     </div>
+
 </div>
+
+<!-- Chart.js Live Engine Script -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    fetch('/api/price-history')
+        .then(response => response.json())
+        .then(data => {
+            let labels = data.map(item => item.time);
+            let prices = data.map(item => item.price);
+
+            const ctx = document.getElementById('investPriceChart').getContext('2d');
+            
+            let gradient = ctx.createLinearGradient(0, 0, 0, 320);
+            gradient.addColorStop(0, 'rgba(0, 242, 254, 0.35)');
+            gradient.addColorStop(1, 'rgba(0, 242, 254, 0.0)');
+
+            const priceChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'KTX Price ($)',
+                        data: prices,
+                        borderColor: '#00f2fe',
+                        borderWidth: 2.5,
+                        backgroundColor: gradient,
+                        fill: true,
+                        tension: 0.35,
+                        pointRadius: 2,
+                        pointHoverRadius: 6,
+                        pointBackgroundColor: '#00f2fe'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            backgroundColor: 'rgba(11, 15, 25, 0.9)',
+                            titleColor: '#fff',
+                            bodyColor: '#00f2fe',
+                            borderColor: 'rgba(0, 242, 254, 0.2)',
+                            borderWidth: 1
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: 'rgba(255, 255, 255, 0.03)' },
+                            ticks: { color: '#64748b', font: { size: 10 } }
+                        },
+                        y: {
+                            grid: { color: 'rgba(255, 255, 255, 0.03)' },
+                            ticks: { color: '#64748b', font: { size: 10 } }
+                        }
+                    }
+                }
+            });
+
+            // Auto-refresh chart live stream
+            setInterval(() => {
+                fetch('/api/price-history')
+                    .then(res => res.json())
+                    .then(newData => {
+                        if (newData && newData.length > 0) {
+                            const latest = newData[newData.length - 1];
+                            priceChart.data.labels = newData.map(i => i.time);
+                            priceChart.data.datasets[0].data = newData.map(i => i.price);
+                            priceChart.update('none');
+                            
+                            const formattedPrice = '$' + Number(latest.price).toFixed(2);
+                            document.getElementById('livePriceDisplay').innerText = formattedPrice;
+                            document.getElementById('panelPriceValue').innerText = formattedPrice;
+                        }
+                    }).catch(err => console.log(err));
+            }, 5000);
+        });
+});
+</script>
 {% endblock %}
