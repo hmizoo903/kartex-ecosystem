@@ -363,7 +363,7 @@ from email.mime.multipart import MIMEMultipart
 
 # إعدادات إرسال Gmail
 GMAIL_USER = "comhamza49@gmail.com"
-GMAIL_APP_PASSWORD = "your_16_digit_app_password"  # استبدلها بكلمة سر التطبيقات من جوجل
+GMAIL_APP_PASSWORD = "nric eurj dojs xlmh"  # استبدلها بكلمة سر التطبيقات من جوجل
 
 
 def send_payment_notification(username, user_email, package_name, amount):
