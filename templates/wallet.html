@@ -1,87 +1,88 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container my-5">
-    <h2 class="mb-4 text-primary fw-bold">KARTEX Wallet & Deposit</h2>
+<div style="max-width: 1100px; margin: 40px auto; padding: 0 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #f8fafc;">
 
+    <!-- Flash Messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
         {% for category, message in messages %}
-          <div class="alert alert-{{ category }} text-center" role="alert">{{ message }}</div>
+          <div style="padding: 12px 20px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-weight: bold; background-color: {{ '#ef4444' if category == 'danger' else '#10b981' }}; color: white;">
+            {{ message }}
+          </div>
         {% endfor %}
       {% endif %}
     {% endwith %}
 
-    <!-- Real Money Purchase Section -->
-    <div class="card p-4 mb-5 shadow" style="background-color: #151c2c; border: 1px solid #1e293b; border-radius: 12px; color: #fff;">
-        <h3 class="text-primary mb-2">💳 Buy KTX Tokens (Real Money via PayPal)</h3>
-        <p class="text-muted">Send payment to our official PayPal email: <strong class="text-warning">comhamza49@gmail.com</strong></p>
-        
-        <div class="row g-4 mt-2">
-            <!-- Pack 1 -->
-            <div class="col-md-4">
-                <div class="p-4 border border-secondary rounded text-center bg-dark h-100 d-flex flex-column justify-content-between">
-                    <div>
-                        <h4 class="text-light">Starter Pack</h4>
-                        <p class="fs-2 text-success fw-bold my-2">$10.00</p>
-                        <p class="text-light">Get <strong>100 KTX</strong></p>
-                    </div>
-                    <a href="https://www.paypal.com/transfer/homepage/external/send?recipient=comhamza49@gmail.com&amount=10" target="_blank" class="btn btn-primary w-100 fw-bold mt-3">Pay $10 via PayPal</a>
+    <h2 style="color: #6366f1; font-size: 28px; font-weight: 700; margin-bottom: 25px;">KARTEX Wallet & Deposit</h2>
+
+    <!-- REAL MONEY PAYPAL SECTION -->
+    <div style="background: #111827; border: 1px solid #1e293b; border-radius: 16px; padding: 30px; margin-bottom: 40px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);">
+        <h3 style="color: #38bdf8; font-size: 22px; margin-top: 0; margin-bottom: 8px;">💳 Buy KTX Tokens (Real Money via PayPal)</h3>
+        <p style="color: #94a3b8; font-size: 14px; margin-bottom: 25px;">Send payment to our official PayPal: <strong style="color: #fbbf24;">comhamza49@gmail.com</strong></p>
+
+        <!-- PACKAGES GRID -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+            
+            <!-- Starter Pack -->
+            <div style="background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 25px; text-align: center; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <h4 style="margin: 0 0 10px 0; color: #cbd5e1; font-size: 18px;">Starter Pack</h4>
+                    <div style="font-size: 32px; font-weight: 800; color: #10b981; margin-bottom: 10px;">$10.00</div>
+                    <p style="color: #94a3b8; margin-bottom: 20px;">Get <strong style="color: #fff;">100 KTX</strong></p>
                 </div>
+                <a href="https://www.paypal.com/transfer/homepage/external/send?recipient=comhamza49@gmail.com&amount=10" target="_blank" style="display: block; background: #6366f1; color: #fff; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 15px; transition: 0.3s;">Pay $10 via PayPal</a>
             </div>
 
-            <!-- Pack 2 -->
-            <div class="col-md-4">
-                <div class="p-4 border border-warning rounded text-center bg-dark h-100 d-flex flex-column justify-content-between">
-                    <div>
-                        <span class="badge bg-warning text-dark mb-2">POPULAR</span>
-                        <h4 class="text-light">Pro Pack</h4>
-                        <p class="fs-2 text-success fw-bold my-2">$50.00</p>
-                        <p class="text-light">Get <strong>550 KTX</strong> <small class="text-warning">(+10% Bonus)</small></p>
-                    </div>
-                    <a href="https://www.paypal.com/transfer/homepage/external/send?recipient=comhamza49@gmail.com&amount=50" target="_blank" class="btn btn-warning text-dark w-100 fw-bold mt-3">Pay $50 via PayPal</a>
+            <!-- Pro Pack -->
+            <div style="background: #1e293b; border: 2px solid #f59e0b; border-radius: 12px; padding: 25px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; position: relative;">
+                <span style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #f59e0b; color: #000; font-size: 11px; font-weight: 800; padding: 3px 12px; border-radius: 20px; text-transform: uppercase;">POPULAR</span>
+                <div>
+                    <h4 style="margin: 10px 0 10px 0; color: #cbd5e1; font-size: 18px;">Pro Pack</h4>
+                    <div style="font-size: 32px; font-weight: 800; color: #10b981; margin-bottom: 10px;">$50.00</div>
+                    <p style="color: #94a3b8; margin-bottom: 20px;">Get <strong style="color: #fff;">550 KTX</strong> <small style="color: #f59e0b;">(+10% Bonus)</small></p>
                 </div>
+                <a href="https://www.paypal.com/transfer/homepage/external/send?recipient=comhamza49@gmail.com&amount=50" target="_blank" style="display: block; background: #f59e0b; color: #0f172a; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 15px; transition: 0.3s;">Pay $50 via PayPal</a>
             </div>
 
-            <!-- Pack 3 -->
-            <div class="col-md-4">
-                <div class="p-4 border border-info rounded text-center bg-dark h-100 d-flex flex-column justify-content-between">
-                    <div>
-                        <h4 class="text-light">Whale Pack</h4>
-                        <p class="fs-2 text-success fw-bold my-2">$100.00</p>
-                        <p class="text-light">Get <strong>1,200 KTX</strong> <small class="text-info">(+20% Bonus)</small></p>
-                    </div>
-                    <a href="https://www.paypal.com/transfer/homepage/external/send?recipient=comhamza49@gmail.com&amount=100" target="_blank" class="btn btn-info text-dark w-100 fw-bold mt-3">Pay $100 via PayPal</a>
+            <!-- Whale Pack -->
+            <div style="background: #1e293b; border: 1px solid #06b6d4; border-radius: 12px; padding: 25px; text-align: center; display: flex; flex-direction: column; justify-content: space-between;">
+                <div>
+                    <h4 style="margin: 0 0 10px 0; color: #cbd5e1; font-size: 18px;">Whale Pack</h4>
+                    <div style="font-size: 32px; font-weight: 800; color: #10b981; margin-bottom: 10px;">$100.00</div>
+                    <p style="color: #94a3b8; margin-bottom: 20px;">Get <strong style="color: #fff;">1,200 KTX</strong> <small style="color: #06b6d4;">(+20% Bonus)</small></p>
                 </div>
+                <a href="https://www.paypal.com/transfer/homepage/external/send?recipient=comhamza49@gmail.com&amount=100" target="_blank" style="display: block; background: #06b6d4; color: #0f172a; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 15px; transition: 0.3s;">Pay $100 via PayPal</a>
             </div>
+
         </div>
-        <p class="text-muted small mt-4 mb-0 text-center">💡 Note: After sending payment, please notify admin or allow up to 10 minutes for your KTX balance to be updated.</p>
+
+        <p style="color: #64748b; font-size: 13px; text-align: center; margin-top: 25px; margin-bottom: 0;">💡 Note: After sending payment, please notify admin or allow up to 10 minutes for your KTX balance to be updated.</p>
     </div>
 
-    <!-- Demo Simulation Section -->
-    <div class="card p-4 shadow" style="background-color: #151c2c; border: 1px solid #1e293b; border-radius: 12px; color: #fff;">
-        <h4 class="text-secondary mb-3">🎮 Demo Trading Wallet</h4>
-        <p>Demo USD Balance: <strong class="text-success">${{ "%.2f"|format(user.wallet.usd_balance) }}</strong></p>
-        <p>KTX Token Balance: <strong class="text-primary">{{ "%.2f"|format(user.wallet.ktx_balance) }} KTX</strong></p>
+    <!-- DEMO SIMULATION SECTION -->
+    <div style="background: #111827; border: 1px solid #1e293b; border-radius: 16px; padding: 30px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);">
+        <h4 style="color: #94a3b8; font-size: 20px; margin-top: 0; margin-bottom: 15px;">🎮 Demo Trading Wallet</h4>
         
-        <div class="row g-3 mt-2">
-            <div class="col-md-6">
-                <form action="/buy" method="POST">
-                    <div class="input-group mb-2">
-                        <input type="number" step="0.01" name="amount" class="form-control bg-dark text-light border-secondary" placeholder="Amount in KTX" required>
-                        <button class="btn btn-success" type="submit">Buy (Demo)</button>
-                    </div>
-                </form>
-            </div>
-            <div class="col-md-6">
-                <form action="/sell" method="POST">
-                    <div class="input-group mb-2">
-                        <input type="number" step="0.01" name="amount" class="form-control bg-dark text-light border-secondary" placeholder="Amount in KTX" required>
-                        <button class="btn btn-danger" type="submit">Sell (Demo)</button>
-                    </div>
-                </form>
-            </div>
+        <div style="display: flex; gap: 30px; flex-wrap: wrap; margin-bottom: 25px; background: #1e293b; padding: 15px 20px; border-radius: 10px;">
+            <div>Demo USD Balance: <strong style="color: #10b981; font-size: 18px;">${{ "%.2f"|format(user.wallet.usd_balance) }}</strong></div>
+            <div>KTX Token Balance: <strong style="color: #6366f1; font-size: 18px;">{{ "%.2f"|format(user.wallet.ktx_balance) }} KTX</strong></div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+            <!-- Demo Buy Form -->
+            <form action="/buy" method="POST" style="display: flex; gap: 10px;">
+                <input type="number" step="0.01" name="amount" placeholder="Amount in KTX" required style="flex: 1; padding: 12px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #fff; font-size: 14px;">
+                <button type="submit" style="background: #10b981; color: #fff; border: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer;">Buy (Demo)</button>
+            </form>
+
+            <!-- Demo Sell Form -->
+            <form action="/sell" method="POST" style="display: flex; gap: 10px;">
+                <input type="number" step="0.01" name="amount" placeholder="Amount in KTX" required style="flex: 1; padding: 12px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #fff; font-size: 14px;">
+                <button type="submit" style="background: #ef4444; color: #fff; border: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer;">Sell (Demo)</button>
+            </form>
         </div>
     </div>
+
 </div>
 {% endblock %}
