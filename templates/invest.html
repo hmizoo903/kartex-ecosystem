@@ -84,22 +84,22 @@
         </h3>
 
         <div style="display: flex; flex-wrap: wrap; gap: 1.5rem;">
-            <!-- Vault 1 -->
+            <!-- Vault 1 (Flex Price Dynamic) -->
             <div style="flex: 1; min-width: 280px; background: rgba(18, 24, 38, 0.95); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 16px; padding: 1.8rem; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
                 <span style="color: #64748b; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px;">LIQUIDITY POOL A</span>
                 <h3 style="color: #fff; font-size: 1.4rem; font-weight: 700; margin: 0.6rem 0;">Flex Yield Vault</h3>
-                <div style="font-size: 2.2rem; font-weight: 800; color: #00f2fe; margin-bottom: 0.5rem;">8.5% <span style="font-size: 0.9rem; color: #64748b;">APY</span></div>
-                <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 1.5rem;">Flexible 7-Day Lock | Daily Automated Dividends</p>
+                <div style="font-size: 2.2rem; font-weight: 800; color: #00f2fe; margin-bottom: 0.5rem;">${{ "%.2f"|format(flex_price) }} <span style="font-size: 0.9rem; color: #64748b;">Min Entry</span></div>
+                <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 1.5rem;">Flexible 7-Day Lock | 8.5% APY Daily Dividends</p>
                 <a href="{{ url_for('wallet') }}" style="border: 1px solid #00f2fe; color: #00f2fe; padding: 0.7rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 700; display: block; font-size: 0.85rem;">Deposit Assets</a>
             </div>
 
-            <!-- Vault 2 (High Incentive) -->
+            <!-- Vault 2 (Growth Price Dynamic) -->
             <div style="flex: 1; min-width: 280px; background: rgba(18, 24, 38, 0.95); border: 1px solid #00f2fe; border-radius: 16px; padding: 1.8rem; text-align: center; position: relative; box-shadow: 0 10px 30px rgba(0, 242, 254, 0.15);">
                 <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #00f2fe; color: #0b0f19; font-weight: 800; font-size: 0.7rem; padding: 0.2rem 0.8rem; border-radius: 20px; text-transform: uppercase;">MAXIMIZE YIELD</div>
                 <span style="color: #64748b; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px;">INSTITUTIONAL VAULT</span>
                 <h3 style="color: #fff; font-size: 1.4rem; font-weight: 700; margin: 0.6rem 0;">Growth Accelerator</h3>
-                <div style="font-size: 2.2rem; font-weight: 800; color: #00f2fe; margin-bottom: 0.5rem;">24.5% <span style="font-size: 0.9rem; color: #64748b;">APY</span></div>
-                <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 1.5rem;">30-Day Lock | Auto-Compounding Liquidity Growth</p>
+                <div style="font-size: 2.2rem; font-weight: 800; color: #00f2fe; margin-bottom: 0.5rem;">${{ "%.2f"|format(growth_price) }} <span style="font-size: 0.9rem; color: #64748b;">Min Entry</span></div>
+                <p style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 1.5rem;">30-Day Lock | 24.5% APY Auto-Compounding</p>
                 <a href="{{ url_for('wallet') }}" style="background: #00f2fe; color: #0b0f19; padding: 0.7rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 800; display: block; font-size: 0.85rem; box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3);">Deposit Assets</a>
             </div>
         </div>

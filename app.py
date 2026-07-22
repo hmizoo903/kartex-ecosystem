@@ -19,11 +19,10 @@ bcrypt = Bcrypt(app)
 # GMAIL NOTIFICATION CONFIG
 # ---------------------------------------------------------
 GMAIL_USER = "comhamza49@gmail.com"
-GMAIL_APP_PASSWORD = "nriceurjdojsxlmh"  # كلمة مرور التطبيقات بدون مسافات
+GMAIL_APP_PASSWORD = "nriceurjdojsxlmh"
 
 
 def send_payment_notification(username, user_email, package_name, amount):
-    """دالة إرسال الإشعار متوافقة مع سيرفرات PythonAnywhere عبر TLS (587)"""
     try:
         subject = f"🚨 KARTEX: تم استلام دفع جديد بقيمة ${amount}!"
         body = f"""
@@ -76,7 +75,7 @@ class User(db.Model):
 class Wallet(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
-    usd_balance = db.Column(db.Float, default=1000.0)  # Starting demo USD balance
+    usd_balance = db.Column(db.Float, default=1000.0)
     ktx_balance = db.Column(db.Float, default=400000.0)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
 
@@ -84,7 +83,7 @@ class Wallet(db.Model):
 class Transaction(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
-    transaction_type = db.Column(db.String(10), nullable=False)  # 'BUY' or 'SELL'
+    transaction_type = db.Column(db.String(10), nullable=False)
     ktx_amount = db.Column(db.Float, nullable=False)
     price = db.Column(db.Float, nullable=False)
     total_value = db.Column(db.Float, nullable=False)
@@ -95,6 +94,17 @@ class PriceHistory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     price = db.Column(db.Float, nullable=False, default=0.10)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
+
+
+class SystemSetting(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    key = db.Column(db.String(50), unique=True, nullable=False)
+    value = db.Column(db.String(100), nullable=False)
+
+    @staticmethod
+    def get_setting(key, default_value):
+        setting = SystemSetting.query.filter_by(key=key).first()
+        return float(setting.value) if setting else default_value
 
 
 # Helper Function
@@ -120,7 +130,9 @@ def index():
 @app.route("/invest")
 def invest():
     price = get_current_price()
-    return render_template("invest.html", current_price=price)
+    flex_price = SystemSetting.get_setting('flex_vault_price', 50.0)
+    growth_price = SystemSetting.get_setting('growth_vault_price', 200.0)
+    return render_template("invest.html", current_price=price, flex_price=flex_price, growth_price=growth_price)
 
 
 @app.route("/about")
@@ -415,6 +427,8 @@ def admin_required(f):
 def admin_dashboard():
     users = User.query.all()
     current_price = get_current_price()
+    flex_price = SystemSetting.get_setting('flex_vault_price', 50.0)
+    growth_price = SystemSetting.get_setting('growth_vault_price', 200.0)
     price_history = (
         PriceHistory.query.order_by(PriceHistory.id.desc()).limit(10).all()
     )
@@ -422,6 +436,8 @@ def admin_dashboard():
         "admin.html",
         users=users,
         current_price=current_price,
+        flex_price=flex_price,
+        growth_price=growth_price,
         price_history=price_history,
     )
 
@@ -443,6 +459,35 @@ def update_price():
     db.session.commit()
 
     flash(f"KTX Token Price updated successfully to ${new_price:.2f}!", "success")
+    return redirect(url_for("admin_dashboard"))
+
+
+@app.route("/admin/update-pricing", methods=["POST"])
+@admin_required
+def update_pricing():
+    try:
+        flex_price = float(request.form.get("flex_price", 50))
+        growth_price = float(request.form.get("growth_price", 200))
+    except ValueError:
+        flash("Invalid pricing values.", "danger")
+        return redirect(url_for("admin_dashboard"))
+
+    # Update or insert Flex Vault Price
+    setting_flex = SystemSetting.query.filter_by(key='flex_vault_price').first()
+    if setting_flex:
+        setting_flex.value = str(flex_price)
+    else:
+        db.session.add(SystemSetting(key='flex_vault_price', value=str(flex_price)))
+
+    # Update or insert Growth Vault Price
+    setting_growth = SystemSetting.query.filter_by(key='growth_vault_price').first()
+    if setting_growth:
+        setting_growth.value = str(growth_price)
+    else:
+        db.session.add(SystemSetting(key='growth_vault_price', value=str(growth_price)))
+
+    db.session.commit()
+    flash("Vault prices updated successfully!", "success")
     return redirect(url_for("admin_dashboard"))
 
 
@@ -494,6 +539,13 @@ def init_db():
             db.session.add(PriceHistory(price=0.11))
             db.session.add(PriceHistory(price=0.15))
             db.session.commit()
+
+        # Default Pricing Setup
+        if not SystemSetting.query.filter_by(key='flex_vault_price').first():
+            db.session.add(SystemSetting(key='flex_vault_price', value='50.0'))
+        if not SystemSetting.query.filter_by(key='growth_vault_price').first():
+            db.session.add(SystemSetting(key='growth_vault_price', value='200.0'))
+        db.session.commit()
 
         admin_email = os.getenv("ADMIN_EMAIL", "admin@kartex.com")
         if not User.query.filter_by(role="admin").first():

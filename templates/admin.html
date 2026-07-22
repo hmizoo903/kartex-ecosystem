@@ -75,6 +75,25 @@
             </div>
         </div>
 
+        <!-- Vault / Package Pricing Control Card -->
+        <div class="card p-4 mb-4 shadow">
+            <h4 class="text-info mb-3">Vault & Investment Package Pricing Control</h4>
+            <p class="text-secondary small mb-4">Manage and update the minimum entry price for investment vaults dynamically.</p>
+            <form action="{{ url_for('update_pricing') }}" method="POST">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label text-secondary small">Flex Yield Vault Min Price ($)</label>
+                        <input type="number" step="0.01" name="flex_price" class="form-control" value="{{ flex_price }}" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label text-secondary small">Growth Accelerator Vault Min Price ($)</label>
+                        <input type="number" step="0.01" name="growth_price" class="form-control" value="{{ growth_price }}" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-info fw-bold text-dark mt-4 w-100">Save Package Prices</button>
+            </form>
+        </div>
+
         <!-- Registered Users Table -->
         <div class="card p-4 shadow">
             <h4 class="mb-3">All Registered Users</h4>
