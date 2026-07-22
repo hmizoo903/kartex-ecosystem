@@ -4,79 +4,224 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
+<style>
+    /* Web3 Modern Crypto Style */
+    .glass-card {
+        background: rgba(18, 24, 38, 0.85);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+    }
+    .gradient-text {
+        background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .payment-option-card {
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.02);
+    }
+    .payment-option-card:hover, .payment-option-card.active {
+        border-color: #00f2fe;
+        background: rgba(0, 242, 254, 0.08);
+        transform: translateY(-2px);
+    }
+</style>
+
 <div class="container py-5">
-    <div class="text-center mb-5">
-        <h2 class="fw-bold text-white"><i class="bi bi-paypal text-primary me-2"></i> Buy KTX Tokens</h2>
-        <p class="text-secondary">Pay securely with Visa, Mastercard, or PayPal</p>
+    <!-- Balance Header -->
+    <div class="row mb-5 justify-content-center">
+        <div class="col-lg-10">
+            <div class="glass-card p-4 d-flex flex-column flex-md-row justify-content-between align-items-center shadow-lg">
+                <div class="mb-3 mb-md-0">
+                    <span class="text-secondary small fw-bold text-uppercase">Total Portfolio Balance</span>
+                    <h1 class="fw-bold text-white mb-0 mt-1">${{ "%.2f"|format((user.wallet.ktx_balance * current_price) + user.wallet.usd_balance) }} <small class="fs-6 text-success fw-normal"><i class="bi bi-graph-up-arrow me-1"></i>Live</small></h1>
+                </div>
+                <div class="d-flex gap-3 text-center">
+                    <div class="px-3 border-end border-secondary">
+                        <small class="text-secondary d-block">KTX Holding</small>
+                        <strong class="fs-5 text-info">{{ "{:,.2f}".format(user.wallet.ktx_balance) }} KTX</strong>
+                    </div>
+                    <div class="px-3">
+                        <small class="text-secondary d-block">USD Balance</small>
+                        <strong class="fs-5 text-light">${{ "{:,.2f}".format(user.wallet.usd_balance) }}</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="row g-4 justify-content-center">
-        <!-- Starter Pack ($10) -->
-        <div class="col-md-4">
-            <div class="card bg-dark text-white border-secondary h-100 shadow-lg">
-                <div class="card-body p-4 d-flex flex-column justify-content-between text-center">
-                    <div>
-                        <h4 class="fw-bold text-uppercase text-light">Starter Pack</h4>
-                        <div class="my-4">
-                            <span class="display-5 fw-bold">$10</span>
-                            <span class="text-secondary">/ USD</span>
-                        </div>
-                        <ul class="list-unstyled mb-4 text-secondary text-start">
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Get <strong>100 KTX</strong></li>
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Instant Delivery</li>
-                        </ul>
-                    </div>
-                    <a href="https://paypal.me/hamzakartex/10USD" target="_blank" class="btn btn-primary btn-lg w-100 fw-bold">
-                        <i class="bi bi-paypal me-2"></i> Pay $10 USD
-                    </a>
-                </div>
-            </div>
-        </div>
+    <!-- Interactive Purchase Engine -->
+    <div class="row justify-content-center g-4">
+        <div class="col-lg-6">
+            <div class="glass-card p-4 shadow-lg">
+                <h4 class="fw-bold text-white mb-3"><i class="bi bi-lightning-charge-fill text-warning me-2"></i> Instant KTX Acquisition</h4>
+                <p class="text-secondary small mb-4">Select or enter custom amount to buy KTX tokens directly using institutional tier checkout.</p>
 
-        <!-- Pro Pack ($50) -->
-        <div class="col-md-4">
-            <div class="card bg-dark text-white border-primary h-100 shadow-lg position-relative">
-                <span class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-primary px-3 py-2 text-uppercase">Most Popular</span>
-                <div class="card-body p-4 d-flex flex-column justify-content-between text-center">
-                    <div>
-                        <h4 class="fw-bold text-uppercase text-primary">Pro Pack</h4>
-                        <div class="my-4">
-                            <span class="display-5 fw-bold">$50</span>
-                            <span class="text-secondary">/ USD</span>
-                        </div>
-                        <ul class="list-unstyled mb-4 text-secondary text-start">
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Get <strong>550 KTX</strong> (+10% Bonus)</li>
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Priority Processing</li>
-                        </ul>
+                <!-- Amount Selector -->
+                <label class="form-label text-secondary small fw-bold">1. CHOOSE OR ENTER USD AMOUNT</label>
+                <div class="row g-2 mb-3">
+                    <div class="col-4">
+                        <button type="button" class="btn btn-outline-light w-100 py-2 fw-bold" onclick="selectAmount(10)">$10 USD</button>
                     </div>
-                    <a href="https://paypal.me/hamzakartex/50USD" target="_blank" class="btn btn-primary btn-lg w-100 fw-bold">
-                        <i class="bi bi-paypal me-2"></i> Pay $50 USD
-                    </a>
+                    <div class="col-4">
+                        <button type="button" class="btn btn-outline-light w-100 py-2 fw-bold" onclick="selectAmount(50)">$50 USD</button>
+                    </div>
+                    <div class="col-4">
+                        <button type="button" class="btn btn-outline-light w-100 py-2 fw-bold" onclick="selectAmount(100)">$100 USD</button>
+                    </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Whale Pack ($100) -->
-        <div class="col-md-4">
-            <div class="card bg-dark text-white border-warning h-100 shadow-lg">
-                <div class="card-body p-4 d-flex flex-column justify-content-between text-center">
-                    <div>
-                        <h4 class="fw-bold text-uppercase text-warning">Whale Pack</h4>
-                        <div class="my-4">
-                            <span class="display-5 fw-bold">$100</span>
-                            <span class="text-secondary">/ USD</span>
-                        </div>
-                        <ul class="list-unstyled mb-4 text-secondary text-start">
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Get <strong>1,200 KTX</strong> (+20% Bonus)</li>
-                            <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> VIP Account Support</li>
-                        </ul>
-                    </div>
-                    <a href="https://paypal.me/hamzakartex/100USD" target="_blank" class="btn btn-warning btn-lg w-100 fw-bold text-dark">
-                        <i class="bi bi-paypal me-2"></i> Pay $100 USD
-                    </a>
+                <div class="input-group mb-4">
+                    <span class="input-group-text bg-dark border-secondary text-white fw-bold">$</span>
+                    <input type="number" id="customUsdInput" class="form-control bg-dark text-white border-secondary fs-5" value="50" min="5" oninput="calculateTokens()">
+                    <span class="input-group-text bg-dark border-secondary text-secondary">USD</span>
                 </div>
+
+                <!-- Live Conversion Output -->
+                <div class="p-3 mb-4 rounded bg-dark border border-secondary d-flex justify-content-between align-items-center">
+                    <div>
+                        <small class="text-secondary d-block">Estimated Tokens Received</small>
+                        <strong id="tokenOutput" class="fs-4 gradient-text">500.00 KTX</strong>
+                    </div>
+                    <span class="badge bg-primary bg-opacity-25 text-primary border border-primary px-3 py-2">Rate: $0.10 / KTX</span>
+                </div>
+
+                <!-- Payment Methods -->
+                <label class="form-label text-secondary small fw-bold mb-2">2. SELECT SECURE PAYMENT METHOD</label>
+                <div class="row g-2 mb-4">
+                    <div class="col-6">
+                        <div class="payment-option-card active d-flex align-items-center gap-2" onclick="setMethod('visa', this)">
+                            <i class="bi bi-credit-card-2-front-fill text-info fs-4"></i>
+                            <div>
+                                <strong class="d-block text-white small">Credit / Visa Card</strong>
+                                <small class="text-secondary style-tiny">Instant Processing</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="payment-option-card d-flex align-items-center gap-2" onclick="setMethod('paypal', this)">
+                            <i class="bi bi-shield-check text-primary fs-4"></i>
+                            <div>
+                                <strong class="d-block text-white small">PayPal Gateway</strong>
+                                <small class="text-secondary style-tiny">Global Protection</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-primary btn-lg w-100 fw-bold py-3 shadow" onclick="triggerCheckout()">
+                    <i class="bi bi-lock-fill me-2"></i> Proceed to Secure Gateway
+                </button>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Embedded Professional Modal -->
+<div class="modal fade" id="gatewayModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass-card text-white border-secondary">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title fw-bold" id="gatewayTitle"><i class="bi bi-shield-lock text-success me-2"></i> Encrypted Checkout</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/buy-visa" method="POST" id="checkoutForm">
+                <div class="modal-body p-4">
+                    <input type="hidden" name="package" id="selectedPackageHidden" value="pro">
+                    
+                    <div class="d-flex justify-content-between align-items-center p-3 rounded mb-4 bg-dark border border-secondary">
+                        <span class="text-secondary">Total Payable Amount:</span>
+                        <strong id="modalAmountDisplay" class="fs-4 text-info">$50.00 USD</strong>
+                    </div>
+
+                    <div id="visaFields">
+                        <div class="mb-3">
+                            <label class="form-label text-secondary small">Cardholder Name</label>
+                            <input type="text" class="form-control bg-dark text-white border-secondary" placeholder="e.g. Alex Morgan">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label text-secondary small">Card Number</label>
+                            <input type="text" class="form-control bg-dark text-white border-secondary" placeholder="4532 •••• •••• 8892" maxlength="19">
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="form-label text-secondary small">Expiry Date</label>
+                                <input type="text" class="form-control bg-dark text-white border-secondary" placeholder="MM/YY" maxlength="5">
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label class="form-label text-secondary small">Security Code (CVV)</label>
+                                <input type="password" class="form-control bg-dark text-white border-secondary" placeholder="•••" maxlength="4">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="paypalMessage" class="d-none text-center py-3">
+                        <i class="bi bi-paypal text-primary display-4 d-block mb-2"></i>
+                        <p class="text-secondary small">You will be redirected to the secure KARTEX PayPal Merchant Endpoint.</p>
+                    </div>
+
+                    <div class="text-center text-secondary style-tiny mt-2">
+                        <i class="bi bi-shield-fill-check text-success"></i> Protected by 256-Bit SSL Enterprise Encryption
+                    </div>
+                </div>
+                <div class="modal-footer border-secondary">
+                    <button type="button" class="btn btn-outline-secondary text-white" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary fw-bold px-4">Confirm & Process Transaction</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    let selectedMethod = 'visa';
+
+    function selectAmount(usd) {
+        document.getElementById('customUsdInput').value = usd;
+        calculateTokens();
+    }
+
+    function calculateTokens() {
+        let usd = parseFloat(document.getElementById('customUsdInput').value) || 0;
+        let rate = 0.10;
+        let tokens = usd / rate;
+        document.getElementById('tokenOutput').innerText = tokens.toLocaleString('en-US', {minimumFractionDigits: 2}) + " KTX";
+    }
+
+    function setMethod(method, element) {
+        selectedMethod = method;
+        document.querySelectorAll('.payment-option-card').forEach(c => c.classList.remove('active'));
+        element.classList.add('active');
+    }
+
+    function triggerCheckout() {
+        let usd = parseFloat(document.getElementById('customUsdInput').value) || 0;
+        if(usd < 5) {
+            alert('Minimum order amount is $5 USD');
+            return;
+        }
+
+        document.getElementById('modalAmountDisplay').innerText = '$' + usd.toFixed(2) + ' USD';
+        
+        let visaFields = document.getElementById('visaFields');
+        let paypalMsg = document.getElementById('paypalMessage');
+
+        if(selectedMethod === 'visa') {
+            visaFields.classList.remove('d-none');
+            paypalMsg.classList.add('d-none');
+        } else {
+            visaFields.classList.add('d-none');
+            paypalMsg.classList.remove('d-none');
+        }
+
+        var gatewayModal = new bootstrap.Modal(document.getElementById('gatewayModal'));
+        gatewayModal.show();
+    }
+</script>
 {% endblock %}
