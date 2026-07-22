@@ -1,4 +1,5 @@
 import os
+from functools import wraps
 from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
@@ -126,6 +127,8 @@ def login():
             session['username'] = user.username
             session['role'] = user.role
             flash(f"Welcome back, {user.username}!", "success")
+            if user.role == 'admin':
+                return redirect(url_for('admin_dashboard'))
             return redirect(url_for('dashboard'))
         else:
             flash("Invalid credentials.", "danger")
@@ -139,7 +142,7 @@ def logout():
     return redirect(url_for('index'))
 
 # ---------------------------------------------------------
-# DASHBOARD & WALLET SYSTEM (PHASE 3)
+# DASHBOARD & WALLET SYSTEM
 # ---------------------------------------------------------
 @app.route('/dashboard')
 def dashboard():
@@ -188,11 +191,9 @@ def buy_ktx():
         flash("Insufficient Demo USD Balance!", "danger")
         return redirect(url_for('wallet'))
 
-    # Update Balances
     user.wallet.usd_balance -= total_cost
     user.wallet.ktx_balance += amount
 
-    # Record Transaction
     tx = Transaction(user_id=user.id, transaction_type='BUY', ktx_amount=amount, price=current_price, total_value=total_cost)
     db.session.add(tx)
     db.session.commit()
@@ -223,11 +224,9 @@ def sell_ktx():
 
     total_credit = amount * current_price
 
-    # Update Balances
     user.wallet.ktx_balance -= amount
     user.wallet.usd_balance += total_credit
 
-    # Record Transaction
     tx = Transaction(user_id=user.id, transaction_type='SELL', ktx_amount=amount, price=current_price, total_value=total_credit)
     db.session.add(tx)
     db.session.commit()
@@ -254,25 +253,28 @@ def price_history_api():
     return jsonify(data)
 
 # ---------------------------------------------------------
-# ADMIN ROUTES (PHASE 4)
+# ADMIN ROUTES (PHASE 4 - UNIFIED)
 # ---------------------------------------------------------
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user_id' not in session or session.get('role') != 'admin':
+            flash("Access denied. Admin privileges required.", "danger")
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
+
 @app.route('/admin')
+@admin_required
 def admin_dashboard():
-    if 'user_id' not in session or session.get('role') != 'admin':
-        flash("Access denied. Admin privileges required.", "danger")
-        return redirect(url_for('dashboard'))
-        
     users = User.query.all()
     current_price = get_current_price()
     price_history = PriceHistory.query.order_by(PriceHistory.id.desc()).limit(10).all()
-    
     return render_template('admin.html', users=users, current_price=current_price, price_history=price_history)
 
 @app.route('/admin/update-price', methods=['POST'])
+@admin_required
 def update_price():
-    if 'user_id' not in session or session.get('role') != 'admin':
-        return redirect(url_for('dashboard'))
-        
     try:
         new_price = float(request.form.get('price', 0))
     except ValueError:
@@ -282,7 +284,6 @@ def update_price():
         flash("Invalid price value.", "danger")
         return redirect(url_for('admin_dashboard'))
 
-    # Record new price point
     p = PriceHistory(price=new_price)
     db.session.add(p)
     db.session.commit()
@@ -291,10 +292,8 @@ def update_price():
     return redirect(url_for('admin_dashboard'))
 
 @app.route('/admin/adjust-balance', methods=['POST'])
+@admin_required
 def adjust_balance():
-    if 'user_id' not in session or session.get('role') != 'admin':
-        return redirect(url_for('dashboard'))
-        
     user_id = request.form.get('user_id')
     try:
         usd_amount = float(request.form.get('usd_balance', 0))
@@ -313,6 +312,19 @@ def adjust_balance():
         flash("User or Wallet not found.", "danger")
 
     return redirect(url_for('admin_dashboard'))
+
+@app.route('/admin/delete_user/<int:user_id>', methods=['POST'])
+@admin_required
+def delete_user(user_id):
+    user = User.query.get_or_404(user_id)
+    if user.role == 'admin':
+        flash("Cannot delete admin account!", "danger")
+        return redirect(url_for('admin_dashboard'))
+    db.session.delete(user)
+    db.session.commit()
+    flash(f"User {user.username} deleted successfully.", "success")
+    return redirect(url_for('admin_dashboard'))
+
 # ---------------------------------------------------------
 # INITIALIZATION
 # ---------------------------------------------------------
@@ -326,9 +338,9 @@ def init_db():
             db.session.add(PriceHistory(price=0.15))
             db.session.commit()
 
-        admin_email = os.getenv('ADMIN_EMAIL')
-        if admin_email and not User.query.filter_by(email=admin_email).first():
-            hashed_pw = bcrypt.generate_password_hash(os.getenv('ADMIN_PASSWORD')).decode('utf-8')
+        admin_email = os.getenv('ADMIN_EMAIL', 'admin@kartex.com')
+        if not User.query.filter_by(role='admin').first():
+            hashed_pw = bcrypt.generate_password_hash(os.getenv('ADMIN_PASSWORD', 'Kartex2026Secret!')).decode('utf-8')
             admin = User(
                 username=os.getenv('ADMIN_USERNAME', 'admin'),
                 email=admin_email,
@@ -341,68 +353,6 @@ def init_db():
             admin_wallet = Wallet(user_id=admin.id, usd_balance=10000.0, ktx_balance=400000.0)
             db.session.add(admin_wallet)
             db.session.commit()
-from functools import wraps
-
-# ====================================================
-# نظام لوحة التحكم والإدارة (Admin Panel)
-# ====================================================
-
-# 1. دالة حماية صفحات الأدمن (تمنع الزوار من الدخول بدون تسجيل)
-def admin_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if not session.get('is_admin'):
-            flash('غير مسموح لك بالوصول لصفحة الإدارة!', 'danger')
-            return redirect(url_for('admin_login'))
-        return f(*args, **kwargs)
-    return decorated_function
-
-# 2. صفحة تسجيل دخول الأدمن
-@app.route('/admin/login', methods=['GET', 'POST'])
-def admin_login():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        password = request.form.get('password')
-        
-        # بيانات الدخول السرية الخاصة بك (يمكنك تغييرها من هنا)
-        ADMIN_USER = "admin"
-        ADMIN_PASS = "Kartex2026Secret!"
-        
-        if username == ADMIN_USER and password == ADMIN_PASS:
-            session['is_admin'] = True
-            session['user'] = username
-            flash('تم تسجيل الدخول بنجاح كأدمن!', 'success')
-            return redirect(url_for('admin_dashboard'))
-        else:
-            flash('بيانات الدخول غير صحيحة!', 'danger')
-            
-    return render_template('admin_login.html')
-
-# 3. الصفحة الرئيسية للوحة الإدارة
-@app.route('/admin')
-@admin_required
-def admin_dashboard():
-    # جلب جميع المستخدمين المسجلين في الموقع
-    users = User.query.all()
-    total_users = len(users)
-    return render_template('admin_dashboard.html', users=users, total_users=total_users)
-
-# 4. أمر حذف مستخدم من قاعدة البيانات
-@app.route('/admin/delete_user/<int:user_id>', methods=['POST'])
-@admin_required
-def delete_user(user_id):
-    user = User.query.get_or_404(user_id)
-    db.session.delete(user)
-    db.session.commit()
-    flash(f'تم حذف المستخدم {user.username} بنجاح.', 'success')
-    return redirect(url_for('admin_dashboard'))
-
-# 5. تسجيل الخروج من الإدارة
-@app.route('/admin/logout')
-def admin_logout():
-    session.pop('is_admin', None)
-    flash('تم تسجيل الخروج من لوحة الإدارة.', 'info')
-    return redirect(url_for('admin_login'))
 
 if __name__ == '__main__':
     init_db()
