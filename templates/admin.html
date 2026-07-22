@@ -1,77 +1,120 @@
-{% extends "base.html" %}
-
-{% block extra_css %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
-{% endblock %}
-
-{% block content %}
-<div class="page-container">
-    <h1 class="page-title"><i class="fa-solid fa-user-shield"></i> Admin Control Panel</h1>
-
-    <div class="trade-flex" style="margin-bottom: 2.5rem;">
-        <!-- UPDATE PRICE FORM -->
-        <div class="glass-card" style="padding: 2rem;">
-            <h3 style="color: var(--accent-secondary); margin-bottom: 1.5rem;"><i class="fa-solid fa-chart-line"></i> Update Market Price</h3>
-            <form action="{{ url_for('update_price') }}" method="POST">
-                <div class="form-group">
-                    <label>Current KTX Price ($USD): <strong>${{ "%.2f"|format(current_price) }}</strong></label>
-                    <input type="number" step="0.01" name="price" class="form-control" placeholder="0.15" required>
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center;">Update Price</button>
-            </form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KARTEX Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body { background-color: #0b0f19; color: #e2e8f0; font-family: system-ui, -apple-system, sans-serif; }
+        .card { background-color: #151c2c; border: 1px solid #1e293b; border-radius: 12px; }
+        .table { color: #e2e8f0; }
+        .table-dark { --bs-table-bg: #151c2c; }
+        .form-control { background-color: #0b0f19; border: 1px solid #334155; color: #fff; }
+        .form-control:focus { background-color: #0b0f19; color: #fff; border-color: #6366f1; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark border-bottom border-secondary px-4">
+        <a class="navbar-brand fw-bold text-primary" href="#">KARTEX System Admin</a>
+        <div>
+            <a href="/dashboard" class="btn btn-outline-light btn-sm me-2">User Dashboard</a>
+            <a href="/logout" class="btn btn-danger btn-sm">Logout</a>
         </div>
+    </nav>
 
-        <!-- RECENT PRICE LOGS -->
-        <div class="glass-card" style="padding: 2rem;">
-            <h3 style="margin-bottom: 1rem;"><i class="fa-solid fa-list"></i> Price Updates Log</h3>
-            <ul style="list-style: none; padding: 0;">
-                {% for p in price_history %}
-                <li style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05);">
-                    <span>${{ "%.2f"|format(p.price) }}</span>
-                    <span style="color: var(--text-secondary);">{{ p.created_at.strftime('%H:%M:%S') }}</span>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
+    <div class="container my-5">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} text-center" role="alert">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
 
-    <!-- USERS MANAGEMENT TABLE -->
-    <div class="glass-card" style="padding: 1.5rem; overflow-x: auto;">
-        <h3 style="margin-bottom: 1.5rem;"><i class="fa-solid fa-users"></i> User Accounts & Wallets</h3>
-        <table style="width: 100%; border-collapse: collapse; text-align: left;">
-            <thead>
-                <tr style="border-bottom: 1px solid var(--border-color); color: var(--text-secondary);">
-                    <th style="padding: 1rem;">ID</th>
-                    <th style="padding: 1rem;">Username</th>
-                    <th style="padding: 1rem;">Role</th>
-                    <th style="padding: 1rem;">USD Balance</th>
-                    <th style="padding: 1rem;">KTX Balance</th>
-                    <th style="padding: 1rem;">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for u in users %}
-                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                    <td style="padding: 1rem;">#{{ u.id }}</td>
-                    <td style="padding: 1rem; font-weight: 600;">{{ u.username }}</td>
-                    <td style="padding: 1rem;"><span style="background: rgba(34, 211, 238, 0.1); padding: 0.2rem 0.6rem; border-radius: 4px; color: var(--accent-secondary);">{{ u.role }}</span></td>
-                    
-                    <form action="{{ url_for('adjust_balance') }}" method="POST">
-                        <input type="hidden" name="user_id" value="{{ u.id }}">
-                        <td style="padding: 0.5rem;">
-                            <input type="number" step="any" name="usd_balance" class="form-control" value="{{ u.wallet.usd_balance }}" style="width: 110px;">
-                        </td>
-                        <td style="padding: 0.5rem;">
-                            <input type="number" step="any" name="ktx_balance" class="form-control" value="{{ u.wallet.ktx_balance }}" style="width: 130px;">
-                        </td>
-                        <td style="padding: 0.5rem;">
-                            <button type="submit" class="btn btn-outline" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">Save</button>
-                        </td>
+        <div class="row mb-4">
+            <!-- Update Price Card -->
+            <div class="col-md-6 mb-3">
+                <div class="card p-4 h-100 shadow">
+                    <h4 class="text-primary mb-3">Update Token Price</h4>
+                    <p>Current Price: <strong class="text-success">${{ "%.2f"|format(current_price) }}</strong></p>
+                    <form action="/admin/update-price" method="POST">
+                        <div class="mb-3">
+                            <label class="form-label">New KTX Price ($)</label>
+                            <input type="number" step="0.01" name="price" class="form-control" placeholder="0.15" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Update Price</button>
                     </form>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </div>
+            </div>
+
+            <!-- Adjust User Balance Card -->
+            <div class="col-md-6 mb-3">
+                <div class="card p-4 h-100 shadow">
+                    <h4 class="text-primary mb-3">Adjust User Balance</h4>
+                    <form action="/admin/adjust-balance" method="POST">
+                        <div class="mb-2">
+                            <label class="form-label">Select User</label>
+                            <select name="user_id" class="form-control" required>
+                                {% for u in users %}
+                                    <option value="{{ u.id }}">{{ u.username }} ({{ u.email }})</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label">New USD Balance ($)</label>
+                            <input type="number" step="0.01" name="usd_balance" class="form-control" placeholder="1000.00" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">New KTX Balance</label>
+                            <input type="number" step="0.01" name="ktx_balance" class="form-control" placeholder="400000.00" required>
+                        </div>
+                        <button type="submit" class="btn btn-warning w-100 text-dark fw-bold">Update Balances</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Registered Users Table -->
+        <div class="card p-4 shadow">
+            <h4 class="mb-3">All Registered Users</h4>
+            <div class="table-responsive">
+                <table class="table table-dark table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>USD Balance</th>
+                            <th>KTX Balance</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for u in users %}
+                        <tr>
+                            <td>{{ u.id }}</td>
+                            <td>{{ u.username }}</td>
+                            <td>{{ u.email }}</td>
+                            <td><span class="badge bg-{{ 'danger' if u.role == 'admin' else 'secondary' }}">{{ u.role }}</span></td>
+                            <td>${{ "%.2f"|format(u.wallet.usd_balance if u.wallet else 0) }}</td>
+                            <td>{{ "%.2f"|format(u.wallet.ktx_balance if u.wallet else 0) }} KTX</td>
+                            <td>
+                                {% if u.role != 'admin' %}
+                                <form action="/admin/delete_user/{{ u.id }}" method="POST" onsubmit="return confirm('Are you sure?');" style="display:inline;">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+                                </form>
+                                {% else %}
+                                <span class="text-muted">Protected</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-</div>
-{% endblock %}
+</body>
+</html>
