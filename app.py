@@ -341,6 +341,68 @@ def init_db():
             admin_wallet = Wallet(user_id=admin.id, usd_balance=10000.0, ktx_balance=400000.0)
             db.session.add(admin_wallet)
             db.session.commit()
+from functools import wraps
+
+# ====================================================
+# نظام لوحة التحكم والإدارة (Admin Panel)
+# ====================================================
+
+# 1. دالة حماية صفحات الأدمن (تمنع الزوار من الدخول بدون تسجيل)
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get('is_admin'):
+            flash('غير مسموح لك بالوصول لصفحة الإدارة!', 'danger')
+            return redirect(url_for('admin_login'))
+        return f(*args, **kwargs)
+    return decorated_function
+
+# 2. صفحة تسجيل دخول الأدمن
+@app.route('/admin/login', methods=['GET', 'POST'])
+def admin_login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        
+        # بيانات الدخول السرية الخاصة بك (يمكنك تغييرها من هنا)
+        ADMIN_USER = "admin"
+        ADMIN_PASS = "Kartex2026Secret!"
+        
+        if username == ADMIN_USER and password == ADMIN_PASS:
+            session['is_admin'] = True
+            session['user'] = username
+            flash('تم تسجيل الدخول بنجاح كأدمن!', 'success')
+            return redirect(url_for('admin_dashboard'))
+        else:
+            flash('بيانات الدخول غير صحيحة!', 'danger')
+            
+    return render_template('admin_login.html')
+
+# 3. الصفحة الرئيسية للوحة الإدارة
+@app.route('/admin')
+@admin_required
+def admin_dashboard():
+    # جلب جميع المستخدمين المسجلين في الموقع
+    users = User.query.all()
+    total_users = len(users)
+    return render_template('admin_dashboard.html', users=users, total_users=total_users)
+
+# 4. أمر حذف مستخدم من قاعدة البيانات
+@app.route('/admin/delete_user/<int:user_id>', methods=['POST'])
+@admin_required
+def delete_user(user_id):
+    user = User.query.get_or_404(user_id)
+    db.session.delete(user)
+    db.session.commit()
+    flash(f'تم حذف المستخدم {user.username} بنجاح.', 'success')
+    return redirect(url_for('admin_dashboard'))
+
+# 5. تسجيل الخروج من الإدارة
+@app.route('/admin/logout')
+def admin_logout():
+    session.pop('is_admin', None)
+    flash('تم تسجيل الخروج من لوحة الإدارة.', 'info')
+    return redirect(url_for('admin_login'))
 
 if __name__ == '__main__':
     init_db()
