@@ -1,88 +1,117 @@
-{% extends "base.html" %}
-
-{% block content %}
-<div style="max-width: 1100px; margin: 40px auto; padding: 0 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; color: #f8fafc;">
-
-    <!-- Flash Messages -->
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-          <div style="padding: 12px 20px; border-radius: 8px; margin-bottom: 20px; text-align: center; font-weight: bold; background-color: {{ '#ef4444' if category == 'danger' else '#10b981' }}; color: white;">
-            {{ message }}
-          </div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
-
-    <h2 style="color: #6366f1; font-size: 28px; font-weight: 700; margin-bottom: 25px;">KARTEX Wallet & Deposit</h2>
-
-    <!-- REAL MONEY PAYPAL SECTION -->
-    <div style="background: #111827; border: 1px solid #1e293b; border-radius: 16px; padding: 30px; margin-bottom: 40px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);">
-        <h3 style="color: #38bdf8; font-size: 22px; margin-top: 0; margin-bottom: 8px;">💳 Buy KTX Tokens (Real Money via PayPal)</h3>
-        <p style="color: #94a3b8; font-size: 14px; margin-bottom: 25px;">Send payment to our official PayPal: <strong style="color: #fbbf24;">comhamza49@gmail.com</strong></p>
-
-        <!-- PACKAGES GRID -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-            
-            <!-- Starter Pack -->
-            <div style="background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 25px; text-align: center; display: flex; flex-direction: column; justify-content: space-between;">
-                <div>
-                    <h4 style="margin: 0 0 10px 0; color: #cbd5e1; font-size: 18px;">Starter Pack</h4>
-                    <div style="font-size: 32px; font-weight: 800; color: #10b981; margin-bottom: 10px;">$10.00</div>
-                    <p style="color: #94a3b8; margin-bottom: 20px;">Get <strong style="color: #fff;">100 KTX</strong></p>
-                </div>
-                <a href="https://www.paypal.com/transfer/homepage/external/send?recipient=comhamza49@gmail.com&amount=10" target="_blank" style="display: block; background: #6366f1; color: #fff; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 15px; transition: 0.3s;">Pay $10 via PayPal</a>
-            </div>
-
-            <!-- Pro Pack -->
-            <div style="background: #1e293b; border: 2px solid #f59e0b; border-radius: 12px; padding: 25px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; position: relative;">
-                <span style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #f59e0b; color: #000; font-size: 11px; font-weight: 800; padding: 3px 12px; border-radius: 20px; text-transform: uppercase;">POPULAR</span>
-                <div>
-                    <h4 style="margin: 10px 0 10px 0; color: #cbd5e1; font-size: 18px;">Pro Pack</h4>
-                    <div style="font-size: 32px; font-weight: 800; color: #10b981; margin-bottom: 10px;">$50.00</div>
-                    <p style="color: #94a3b8; margin-bottom: 20px;">Get <strong style="color: #fff;">550 KTX</strong> <small style="color: #f59e0b;">(+10% Bonus)</small></p>
-                </div>
-                <a href="https://www.paypal.com/transfer/homepage/external/send?recipient=comhamza49@gmail.com&amount=50" target="_blank" style="display: block; background: #f59e0b; color: #0f172a; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 15px; transition: 0.3s;">Pay $50 via PayPal</a>
-            </div>
-
-            <!-- Whale Pack -->
-            <div style="background: #1e293b; border: 1px solid #06b6d4; border-radius: 12px; padding: 25px; text-align: center; display: flex; flex-direction: column; justify-content: space-between;">
-                <div>
-                    <h4 style="margin: 0 0 10px 0; color: #cbd5e1; font-size: 18px;">Whale Pack</h4>
-                    <div style="font-size: 32px; font-weight: 800; color: #10b981; margin-bottom: 10px;">$100.00</div>
-                    <p style="color: #94a3b8; margin-bottom: 20px;">Get <strong style="color: #fff;">1,200 KTX</strong> <small style="color: #06b6d4;">(+20% Bonus)</small></p>
-                </div>
-                <a href="https://www.paypal.com/transfer/homepage/external/send?recipient=comhamza49@gmail.com&amount=100" target="_blank" style="display: block; background: #06b6d4; color: #0f172a; text-decoration: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 15px; transition: 0.3s;">Pay $100 via PayPal</a>
-            </div>
-
-        </div>
-
-        <p style="color: #64748b; font-size: 13px; text-align: center; margin-top: 25px; margin-bottom: 0;">💡 Note: After sending payment, please notify admin or allow up to 10 minutes for your KTX balance to be updated.</p>
+<!-- قسم باقات الشراء بالفيزا -->
+<div class="row mt-4">
+    <div class="col-12 text-center mb-3">
+        <h3>💳 Buy KTX with Credit Card / Visa</h3>
+        <p class="text-muted">Instant delivery to your Kartex Wallet</p>
     </div>
 
-    <!-- DEMO SIMULATION SECTION -->
-    <div style="background: #111827; border: 1px solid #1e293b; border-radius: 16px; padding: 30px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);">
-        <h4 style="color: #94a3b8; font-size: 20px; margin-top: 0; margin-bottom: 15px;">🎮 Demo Trading Wallet</h4>
-        
-        <div style="display: flex; gap: 30px; flex-wrap: wrap; margin-bottom: 25px; background: #1e293b; padding: 15px 20px; border-radius: 10px;">
-            <div>Demo USD Balance: <strong style="color: #10b981; font-size: 18px;">${{ "%.2f"|format(user.wallet.usd_balance) }}</strong></div>
-            <div>KTX Token Balance: <strong style="color: #6366f1; font-size: 18px;">{{ "%.2f"|format(user.wallet.ktx_balance) }} KTX</strong></div>
-        </div>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-            <!-- Demo Buy Form -->
-            <form action="/buy" method="POST" style="display: flex; gap: 10px;">
-                <input type="number" step="0.01" name="amount" placeholder="Amount in KTX" required style="flex: 1; padding: 12px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #fff; font-size: 14px;">
-                <button type="submit" style="background: #10b981; color: #fff; border: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer;">Buy (Demo)</button>
-            </form>
-
-            <!-- Demo Sell Form -->
-            <form action="/sell" method="POST" style="display: flex; gap: 10px;">
-                <input type="number" step="0.01" name="amount" placeholder="Amount in KTX" required style="flex: 1; padding: 12px; background: #0f172a; border: 1px solid #334155; border-radius: 8px; color: #fff; font-size: 14px;">
-                <button type="submit" style="background: #ef4444; color: #fff; border: none; padding: 12px 20px; border-radius: 8px; font-weight: bold; cursor: pointer;">Sell (Demo)</button>
-            </form>
+    <!-- Starter Pack -->
+    <div class="col-md-4 mb-3">
+        <div class="card bg-dark text-white border-primary h-100">
+            <div class="card-body text-center d-flex flex-column justify-content-between">
+                <div>
+                    <h5>Starter Pack</h5>
+                    <h2 class="my-3">$10 <small class="fs-6">USD</small></h2>
+                    <p>Get <strong>100 KTX</strong></p>
+                </div>
+                <button type="button" class="btn btn-primary w-100" onclick="openPaymentModal('starter', 'Starter Pack', 10)">
+                    Pay with Visa
+                </button>
+            </div>
         </div>
     </div>
 
+    <!-- Pro Pack -->
+    <div class="col-md-4 mb-3">
+        <div class="card bg-dark text-white border-success h-100">
+            <div class="card-body text-center d-flex flex-column justify-content-between">
+                <div>
+                    <span class="badge bg-success mb-2">Popular</span>
+                    <h5>Pro Pack</h5>
+                    <h2 class="my-3">$50 <small class="fs-6">USD</small></h2>
+                    <p>Get <strong>550 KTX</strong> (+10% Bonus)</p>
+                </div>
+                <button type="button" class="btn btn-success w-100" onclick="openPaymentModal('pro', 'Pro Pack', 50)">
+                    Pay with Visa
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Whale Pack -->
+    <div class="col-md-4 mb-3">
+        <div class="card bg-dark text-white border-warning h-100">
+            <div class="card-body text-center d-flex flex-column justify-content-between">
+                <div>
+                    <span class="badge bg-warning text-dark mb-2">Best Value</span>
+                    <h5>Whale Pack</h5>
+                    <h2 class="my-3">$100 <small class="fs-6">USD</small></h2>
+                    <p>Get <strong>1,200 KTX</strong> (+20% Bonus)</p>
+                </div>
+                <button type="button" class="btn btn-warning w-100" onclick="openPaymentModal('whale', 'Whale Pack', 100)">
+                    Pay with Visa
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
-{% endblock %}
+
+<!-- Modal واجهة الدفع السريعة بالفيزا -->
+<div class="modal fade" id="visaPaymentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-dark text-white border-secondary">
+            <div class="modal-header border-secondary">
+                <h5 class="modal-title" id="modalPackageTitle">Checkout</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/buy-visa" method="POST" id="paymentForm">
+                <div class="modal-body">
+                    <input type="hidden" name="package" id="modalPackageInput">
+                    
+                    <div class="alert alert-info py-2 d-flex justify-content-between align-items-center">
+                        <span>Total to Pay:</span>
+                        <strong id="modalPriceTag" class="fs-5">$0.00 USD</strong>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Card Holder Name</label>
+                        <input type="text" class="form-control bg-secondary text-white border-0" placeholder="e.g. John Doe" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Card Number</label>
+                        <input type="text" class="form-control bg-secondary text-white border-0" placeholder="4000 1234 5678 9010" maxlength="19" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6 mb-3">
+                            <label class="form-label">Expiry Date</label>
+                            <input type="text" class="form-control bg-secondary text-white border-0" placeholder="MM/YY" maxlength="5" required>
+                        </div>
+                        <div class="col-6 mb-3">
+                            <label class="form-label">CVV</label>
+                            <input type="password" class="form-control bg-secondary text-white border-0" placeholder="123" maxlength="3" required>
+                        </div>
+                    </div>
+                    
+                    <small class="text-muted"><i class="bi bi-shield-lock"></i> Secured 256-bit SSL Payment Gateway</small>
+                </div>
+                <div class="modal-footer border-secondary">
+                    <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success fw-bold">Confirm & Pay</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function openPaymentModal(packageKey, packageName, price) {
+    document.getElementById('modalPackageInput').value = packageKey;
+    document.getElementById('modalPackageTitle').innerText = 'Pay for ' + packageName;
+    document.getElementById('modalPriceTag').innerText = '$' + price.toFixed(2) + ' USD';
+    
+    var paymentModal = new bootstrap.Modal(document.getElementById('visaPaymentModal'));
+    paymentModal.show();
+}
+</script>
