@@ -48,7 +48,6 @@ def send_payment_notification(username, user_email, package_name, amount):
         msg["Subject"] = subject
         msg.attach(MIMEText(body, "plain", "utf-8"))
 
-        # الاتصال بـ Gmail باستخدام TLS 587 للعمل بسلاسة على PythonAnywhere
         server = smtplib.SMTP("smtp.gmail.com", 587)
         server.starttls()
         server.login(GMAIL_USER, GMAIL_APP_PASSWORD)
@@ -113,9 +112,15 @@ def index():
     stats = {
         "total_supply": "1,000,000 KTX",
         "current_price": f"${price:.2f}",
-        "simulated_market_cap": f"${(price * 1000000):,.2f}",
+        "simulated_market_cap": f"${(price * 1000000):,.2f}"
     }
-    return render_template("index.html", stats=stats)
+    return render_template("index.html", stats=stats, current_price=price)
+
+
+@app.route("/invest")
+def invest():
+    price = get_current_price()
+    return render_template("invest.html", current_price=price)
 
 
 @app.route("/about")

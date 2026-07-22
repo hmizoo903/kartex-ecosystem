@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    body { background-color: #0b0f19 !important; color: #fff; }
+    .glass-card {
+        background: rgba(18, 24, 38, 0.85);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+    }
+    .gradient-text {
+        background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+</style>
+
+<div class="container py-5">
+    <!-- Hero Banner -->
+    <div class="text-center mb-5">
+        <span class="badge bg-primary bg-opacity-10 text-info border border-info px-3 py-2 rounded-pill mb-3">
+            <i class="bi bi-cash-coin me-1"></i> Institutional Staking & Yield
+        </span>
+        <h1 class="display-4 fw-bold">Multiply Your Capital with <span class="gradient-text">KARTEX Vaults</span></h1>
+        <p class="text-secondary fs-5 mx-auto" style="max-width: 650px;">
+            Lock KTX liquidity pools and earn up to 24.5% APY with automated Smart Contract distribution.
+        </p>
+    </div>
+
+    <!-- Live Deposit Ticker (Attractive Floating Stats) -->
+    <div class="glass-card p-3 mb-5 border-info border-opacity-25">
+        <div class="d-flex align-items-center gap-3 overflow-hidden text-nowrap">
+            <span class="badge bg-success text-dark fw-bold">LIVE ACTIVITY</span>
+            <marquee behavior="scroll" direction="left" class="text-secondary small">
+                🔥 User <strong class="text-white">0x8f...39a</strong> just locked <strong class="text-info">5,000 KTX ($500)</strong> in 30-Day Vault &nbsp;&nbsp;|&nbsp;&nbsp; 
+                💰 Investor <strong class="text-white">Alex_M</strong> withdrew <strong class="text-success">$1,250.00 USD</strong> profit &nbsp;&nbsp;|&nbsp;&nbsp;
+                🚀 User <strong class="text-white">0x3c...11b</strong> joined Whale Pool (<strong class="text-warning">$2,500 USD</strong>)
+            </marquee>
+        </div>
+    </div>
+
+    <!-- Investment Tiers -->
+    <div class="row g-4 mb-5 justify-content-center">
+        <!-- Pool 1 -->
+        <div class="col-lg-4 col-md-6">
+            <div class="glass-card p-4 h-100 text-center d-flex flex-column justify-content-between">
+                <div>
+                    <span class="text-secondary small fw-bold">STAKING POOL A</span>
+                    <h3 class="fw-bold text-white mt-2">Flex Liquidity</h3>
+                    <div class="my-4">
+                        <span class="display-4 fw-bold text-info">8.5%</span>
+                        <span class="text-secondary">/ APY</span>
+                    </div>
+                    <ul class="list-unstyled text-start text-secondary small space-y-2 mb-4">
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-info me-2"></i> Lock Period: 7 Days</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-info me-2"></i> Daily Yield Payout</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-info me-2"></i> Min: $50 USD</li>
+                    </ul>
+                </div>
+                <a href="/wallet" class="btn btn-outline-info btn-lg w-100 fw-bold">Stake Now</a>
+            </div>
+        </div>
+
+        <!-- Pool 2 -->
+        <div class="col-lg-4 col-md-6">
+            <div class="glass-card p-4 h-100 text-center d-flex flex-column justify-content-between border-info">
+                <div>
+                    <span class="badge bg-info text-dark fw-bold mb-2">MOST POPULAR</span>
+                    <h3 class="fw-bold text-white">Growth Vault</h3>
+                    <div class="my-4">
+                        <span class="display-4 fw-bold gradient-text">16.8%</span>
+                        <span class="text-secondary">/ APY</span>
+                    </div>
+                    <ul class="list-unstyled text-start text-secondary small space-y-2 mb-4">
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-info me-2"></i> Lock Period: 30 Days</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-info me-2"></i> Auto-Compounding Yield</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-info me-2"></i> Min: $250 USD</li>
+                    </ul>
+                </div>
+                <a href="/wallet" class="btn btn-info btn-lg w-100 fw-bold text-dark shadow">Stake Now</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Investor Success Stories -->
+    <div class="mt-5">
+        <h3 class="fw-bold text-white text-center mb-4"><i class="bi bi-star-fill text-warning me-2"></i> Investor Stories</h3>
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="glass-card p-4">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="rounded-circle bg-info bg-opacity-25 p-3 text-info fw-bold">MK</div>
+                        <div>
+                            <h6 class="fw-bold text-white mb-0">Marcus K.</h6>
+                            <small class="text-secondary">Crypto Portfolio Manager</small>
+                        </div>
+                    </div>
+                    <p class="text-secondary small italic">
+                        "Joining the KARTEX Growth Vault early allowed me to compound my initial $1,000 allocation into over $3,400 within 2 months. Smooth withdrawals directly to my balance!"
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="glass-card p-4">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="rounded-circle bg-warning bg-opacity-25 p-3 text-warning fw-bold">S.D</div>
+                        <div>
+                            <h6 class="fw-bold text-white mb-0">Sarah D.</h6>
+                            <small class="text-secondary">Algorithmic Trader</small>
+                        </div>
+                    </div>
+                    <p class="text-secondary small italic">
+                        "The liquidity stability and transparent price execution make KARTEX one of the most reliable Web3 ecosystems I have participated in this year."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
