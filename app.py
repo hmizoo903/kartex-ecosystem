@@ -357,3 +357,86 @@ def init_db():
 if __name__ == '__main__':
     init_db()
     app.run(debug=True, port=5000)
+    import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
+# إعدادات إرسال Gmail
+GMAIL_USER = "comhamza49@gmail.com"
+GMAIL_APP_PASSWORD = "your_16_digit_app_password"  # استبدلها بكلمة سر التطبيقات من جوجل
+
+
+def send_payment_notification(username, user_email, package_name, amount):
+    """دالة لإرسال إشعار فوري إلى بريدك الإلكتروني عند الدفع"""
+    try:
+        subject = f"🚨 KARTEX: تم استلام دفع جديد بقيمة ${amount}!"
+        body = f"""
+        مرحباً حمزة،
+
+        تم استلام عملية دفع جديدة بنجاح عبر Visa/Mastercard!
+
+        📋 تفاصيل العملية:
+        -----------------------------------
+        - اسم المستخدم: {username}
+        - بريد المستخدم: {user_email}
+        - الباقة المختارة: {package_name}
+        - المبلغ المدفوع: ${amount} USD
+        -----------------------------------
+        
+        يمكنك مراجعة لوحة التحكم /admin لتفاصيل أكثر.
+        """
+
+        msg = MIMEMultipart()
+        msg["From"] = GMAIL_USER
+        msg["To"] = GMAIL_USER
+        msg["Subject"] = subject
+        msg.attach(MIMEText(body, "plain", "utf-8"))
+
+        # الاتصال بسيرفر Gmail SSL
+        server = smtplib.SMTP_SSL("smtp.gmail.com", 465)
+        server.login(GMAIL_USER, GMAIL_APP_PASSWORD)
+        server.sendmail(GMAIL_USER, GMAIL_USER, msg.as_string())
+        server.quit()
+        print("✅ Email notification sent successfully!")
+    except Exception as e:
+        print(f"❌ Failed to send email: {e}")
+        @app.route("/buy-visa", methods=["POST"])
+def buy_visa():
+    if "user_id" not in session:
+        flash("يرجى تسجيل الدخول أولاً.", "danger")
+        return redirect("/login")
+
+    user = User.query.get(session["user_id"])
+    package_type = request.form.get("package")
+
+    # تحديد قيمة الباقة وعدد عملات KTX
+    packages = {
+        "starter": {"name": "Starter Pack", "price": 10.0, "ktx": 100.0},
+        "pro": {"name": "Pro Pack", "price": 50.0, "ktx": 550.0},
+        "whale": {"name": "Whale Pack", "price": 100.0, "ktx": 1200.0},
+    }
+
+    selected = packages.get(package_type)
+
+    if selected:
+        # 1. إرسال الإيميل الفوري لك على comhamza49@gmail.com
+        send_payment_notification(
+            username=user.username,
+            user_email=user.email,
+            package_name=selected["name"],
+            amount=selected["price"],
+        )
+
+        # 2. إضافة رصيد KTX للمستخدم تلقائياً بعد الشراء
+        if user.wallet:
+            user.wallet.ktx_balance += selected["ktx"]
+            db.session.commit()
+
+        flash(
+            f"تم الدفع بنجاح! تم إضافة {selected['ktx']} KTX إلى حسابك.",
+            "success",
+        )
+    else:
+        flash("الباقة غير صالحة.", "danger")
+
+    return redirect("/wallet")
