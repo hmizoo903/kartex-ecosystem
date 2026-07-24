@@ -24,18 +24,18 @@ GMAIL_APP_PASSWORD = "nriceurjdojsxlmh"
 
 def send_payment_notification(username, user_email, package_name, amount):
     try:
-        subject = f"🚨 KARTEX: تم استلام دفع جديد بقيمة ${amount}!"
+        subject = f"🚨 KARTEX: تم استلام طلب باقة جديد بقيمة ${amount}!"
         body = f"""
         مرحباً حمزة،
 
-        تم استلام عملية دفع جديدة بنجاح عبر Visa/Mastercard!
+        تم طلب باقة جديدة بنجاح (سواء عبر الدفع أو الرمز السري VIP)!
 
         📋 تفاصيل العملية:
         -----------------------------------
         - اسم المستخدم: {username}
         - بريد المستخدم: {user_email}
         - الباقة المختارة: {package_name}
-        - المبلغ المدفوع: ${amount} USD
+        - القيمة: ${amount} USD
         -----------------------------------
         
         يمكنك مراجعة لوحة التحكم /admin لتفاصيل أكثر.
@@ -280,17 +280,25 @@ def buy_visa():
     selected = packages.get(package_type)
 
     if selected:
-        # الرمز الخاص بك (يمكنك تغييره إلى أي كلمة سرية تفضلها هنا)
+        # الرمز الخاص بك
         MY_SECRET_VIP_CODE = "HAMZA2026_VIP"
 
         if promo_code == MY_SECRET_VIP_CODE:
-            # تفعيل الشراء المجاني الفوري عبر الرمز الخاص بك
+            # إرسال الإشعار لبريدك عند استخدام الرمز السري
+            send_payment_notification(
+                username=f"{user.username} (VIP PROMO CODE)",
+                user_email=user.email,
+                package_name=selected["name"],
+                amount=selected["price"],
+            )
+
+            # تفعيل الشراء الفوري المجاني عبر الرمز الخاص بك
             if user.wallet:
                 user.wallet.ktx_balance += selected["ktx"]
                 db.session.commit()
             flash(f"✨ تم استخدام الرمز الخاص بك بنجاح! تمت إضافة {selected['ktx']} KTX إلى حسابك مجاناً.", "success")
         else:
-            # العملية العادية (في حال لم يتم إدخال الرمز أو كان خاطئاً)
+            # العملية العادية للفيزا
             send_payment_notification(
                 username=user.username,
                 user_email=user.email,
