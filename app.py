@@ -267,6 +267,9 @@ def buy_visa():
 
     user = User.query.get(session["user_id"])
     package_type = request.form.get("package")
+    
+    # استقبال خانة الرمز السري أو الكوبون من النموذج
+    promo_code = request.form.get("promo_code", "").strip()
 
     packages = {
         "starter": {"name": "Starter Pack", "price": 10.0, "ktx": 100.0},
@@ -277,21 +280,32 @@ def buy_visa():
     selected = packages.get(package_type)
 
     if selected:
-        send_payment_notification(
-            username=user.username,
-            user_email=user.email,
-            package_name=selected["name"],
-            amount=selected["price"],
-        )
+        # الرمز الخاص بك (يمكنك تغييره إلى أي كلمة سرية تفضلها هنا)
+        MY_SECRET_VIP_CODE = "HAMZA2026_VIP"
 
-        if user.wallet:
-            user.wallet.ktx_balance += selected["ktx"]
-            db.session.commit()
+        if promo_code == MY_SECRET_VIP_CODE:
+            # تفعيل الشراء المجاني الفوري عبر الرمز الخاص بك
+            if user.wallet:
+                user.wallet.ktx_balance += selected["ktx"]
+                db.session.commit()
+            flash(f"✨ تم استخدام الرمز الخاص بك بنجاح! تمت إضافة {selected['ktx']} KTX إلى حسابك مجاناً.", "success")
+        else:
+            # العملية العادية (في حال لم يتم إدخال الرمز أو كان خاطئاً)
+            send_payment_notification(
+                username=user.username,
+                user_email=user.email,
+                package_name=selected["name"],
+                amount=selected["price"],
+            )
 
-        flash(
-            f"تم الدفع بنجاح! تم إضافة {selected['ktx']} KTX إلى حسابك.",
-            "success",
-        )
+            if user.wallet:
+                user.wallet.ktx_balance += selected["ktx"]
+                db.session.commit()
+
+            flash(
+                f"تم الدفع بنجاح! تم إضافة {selected['ktx']} KTX إلى حسابك.",
+                "success",
+            )
     else:
         flash("الباقة غير صالحة.", "danger")
 

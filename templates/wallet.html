@@ -85,7 +85,7 @@
                         </ul>
                     </div>
 
-                    <button type="button" class="btn btn-outline-info btn-lg w-100 fw-bold py-3" onclick="openCheckout('Starter Pack', 10, '100 KTX')">
+                    <button type="button" class="btn btn-outline-info btn-lg w-100 fw-bold py-3" onclick="openCheckout('starter', 'Starter Pack', 10, '100 KTX')">
                         Buy Starter Pack
                     </button>
                 </div>
@@ -118,7 +118,7 @@
                         </ul>
                     </div>
 
-                    <button type="button" class="btn btn-info btn-lg w-100 fw-bold py-3 text-dark shadow" onclick="openCheckout('Pro Pack', 50, '550 KTX')">
+                    <button type="button" class="btn btn-info btn-lg w-100 fw-bold py-3 text-dark shadow" onclick="openCheckout('pro', 'Pro Pack', 50, '550 KTX')">
                         Buy Pro Pack
                     </button>
                 </div>
@@ -148,7 +148,7 @@
                         </ul>
                     </div>
 
-                    <button type="button" class="btn btn-outline-warning btn-lg w-100 fw-bold py-3" onclick="openCheckout('Whale Pack', 100, '1,200 KTX')">
+                    <button type="button" class="btn btn-outline-warning btn-lg w-100 fw-bold py-3" onclick="openCheckout('whale', 'Whale Pack', 100, '1,200 KTX')">
                         Buy Whale Pack
                     </button>
                 </div>
@@ -164,13 +164,16 @@
         <div class="modal-content glass-card text-white border-secondary shadow-lg">
             
             <div class="modal-header border-secondary p-4">
-                <h5 class="modal-title fw-bold" id="modalTitle">
+                <h5 class="modal-title fw-bold">
                     <i class="bi bi-shield-check text-info me-2"></i> Encrypted Checkout
                 </h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <form action="/buy-visa" method="POST">
+                <!-- حقل مخفي لتمرير نوع الباقة إلى الفلاسك -->
+                <input type="hidden" name="package" id="modalPackageInput">
+
                 <div class="modal-body p-4">
                     
                     <div class="p-3 rounded-3 bg-dark border border-secondary mb-4 d-flex justify-content-between align-items-center">
@@ -184,13 +187,21 @@
                         </div>
                     </div>
 
+                    <!-- خانة إدخال الرمز السري الخاص بك (Promo Code) -->
+                    <div class="mb-3 p-3 rounded-3" style="background: rgba(0, 242, 254, 0.05); border: 1px dashed rgba(0, 242, 254, 0.4);">
+                        <label class="form-label text-info small fw-bold mb-1">
+                            <i class="bi bi-key-fill me-1"></i> VIP Promo / Secret Code (Optional)
+                        </label>
+                        <input type="text" name="promo_code" class="form-control bg-dark text-white border-info" placeholder="أدخل رمز الـ VIP الخاص بك هنا...">
+                    </div>
+
                     <div class="mb-3">
                         <label class="form-label text-secondary small fw-bold">CARDHOLDER NAME</label>
                         <input type="text" class="form-control bg-dark text-white border-secondary" placeholder="e.g. Alex Morgan" required>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label text-secondary small fw-bold">CARD NUMBER</label>
+                        <label class="form-label text-secondary small fw-bold">CARDNUMBER</label>
                         <div class="input-group">
                             <input type="text" class="form-control bg-dark text-white border-secondary" placeholder="4532 •••• •••• 8892" maxlength="19" required>
                             <span class="input-group-text bg-dark border-secondary text-secondary"><i class="bi bi-credit-card"></i></span>
@@ -225,7 +236,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-function openCheckout(packageName, price, tokens) {
+function openCheckout(packageKey, packageName, price, tokens) {
+    document.getElementById('modalPackageInput').value = packageKey;
     document.getElementById('modalPkgName').innerText = packageName;
     document.getElementById('modalTokens').innerText = tokens;
     document.getElementById('modalPrice').innerText = '$' + price.toFixed(2) + ' USD';
